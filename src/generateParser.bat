@@ -1,0 +1,1 @@
+java -jar antlr-tool\antlr-4.10.1-complete.jar -Dlanguage=Cpp -o antlr-generated -package antlrcppgrim -visitor grimoire.g4

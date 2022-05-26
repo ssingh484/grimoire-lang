@@ -1,0 +1,10 @@
+^D:\GRIMOIRE_LANG\BUILD\CMAKEFILES\7DF644E9CF0DBC5C077E8F4AD0DB02D5\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/grimoire_lang -BD:/grimoire_lang/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/grimoire_lang/build/grimoire_lang.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

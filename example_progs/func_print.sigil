@@ -1,0 +1,12 @@
+main let
+    var X : int := 0;
+    var Y : int;
+    function myPrint (X : int) begin
+        printi(X);      /* print int */
+    end
+in begin
+    X := readf();
+    printf(X + 2);      /* print float */
+    Y := readi();
+    myPrint(1 - Y + 3 * Y);
+end

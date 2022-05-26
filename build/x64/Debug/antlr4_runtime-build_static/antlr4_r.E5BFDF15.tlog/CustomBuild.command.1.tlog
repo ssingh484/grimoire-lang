@@ -1,0 +1,34 @@
+^D:\GRIMOIRE_LANG\BUILD\CMAKEFILES\7748D67412946EE39A67BC6E0D52DF96\ANTLR4_RUNTIME-BUILD_STATIC.RULE
+setlocal
+cd D:\grimoire_lang\build\antlr4_runtime\src\antlr4_runtime\runtime\Cpp
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" --build . --config Debug --target antlr4_static
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/build/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-build_static
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\BUILD\CMAKEFILES\7DF644E9CF0DBC5C077E8F4AD0DB02D5\ANTLR4_RUNTIME-BUILD_STATIC.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/grimoire_lang -BD:/grimoire_lang/build --check-stamp-file D:/grimoire_lang/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
