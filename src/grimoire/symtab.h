@@ -44,7 +44,12 @@ public:
     void dump() override {
         std::cout << " - specifier -" << std::endl;
         std::cout << "   storage:" << storage << std::endl;
-        std::cout << "   value:" << value->getValue() << std::endl;
+        if (value)
+        {
+            std::cout << "   value:" << value->getValue() << std::endl;
+        }
+        
+        
     }
 
 private:
@@ -166,20 +171,13 @@ private:
     Symbol::State state;                            /* State of the symbol */
 };
 
-
-class ParamDeclaration {
-public:
-    ParamDeclaration(const std::string &name, const std::shared_ptr<SymbolType> &type) : name(name),
-                                                                                                           type(type) {}
-
-private:
-    std::string name;                   /* Parameter name */
-    std::shared_ptr<SymbolType> type;   /* Parameter type */
-};
-
 class FunctionDeclarator : public  SymbolType {
 public:
-    FunctionDeclarator()  {}
+    FunctionDeclarator(std::shared_ptr<Symbol> return_type) : return_type(return_type) {}
+
+    void addParam(std::shared_ptr<Symbol> param) {
+        params.push_back(param);
+    };
 
     std::shared_ptr<SymbolType> clone(std::string name) override {
         return std::shared_ptr<SymbolType>();
@@ -191,10 +189,19 @@ public:
 
     void dump() override {
         std::cout << " - function declarator -" << std::endl;
+        std::cout << " Return Type: " << std::endl;
+        return_type->dump();
+        std::cout << " Parameters: " << std::endl;
+        for (std::shared_ptr<Symbol> param : params)
+        {
+            param->dump();
+        }
+        
     }
 
 private:
-    std::vector<std::shared_ptr<ParamDeclaration>> args;
+    std::vector<std::shared_ptr<Symbol>> params;
+    std::shared_ptr<Symbol> return_type;
 };
 
 class SymbolTable {

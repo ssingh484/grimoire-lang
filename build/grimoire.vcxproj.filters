@@ -19,6 +19,9 @@
     <ClCompile Include="D:\grimoire_lang\src\grimoire\declaration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\grimoire_lang\src\grimoire\parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\grimoire_lang\CMakeLists.txt" />

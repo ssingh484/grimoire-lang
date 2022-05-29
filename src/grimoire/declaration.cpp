@@ -50,11 +50,55 @@ std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoirePars
  * @return symbol
  */
 std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoireParser::FunctdeclarationContext* ctx) {
-    /* Subroutine Name */
-    std::string name =  ctx->ID()->getText();
+    /* Function Name */
+    std::string name =  ctx->beginfunc()->ID()->getText();
+
+    /* Function Return Type */
+    std::shared_ptr<Symbol> ret_var;
+
+    if (ctx->beginfunc()->rettype()->type())
+    {
+        /* Creates the symbol and the specifier */
+        ret_var = std::make_shared<Symbol>("UNNAMED RETURNED SYMBOL", ctx->getStart()->getLine());
+        std::shared_ptr<SymbolSpecifier> ret_specifier = std::make_shared<SymbolSpecifier>("S");
+
+        /* array */
+        if (ctx->beginfunc()->rettype()->type()->ARRAY())
+        {
+            int arraySize = stoi(ctx->beginfunc()->rettype()->type()->INTLIT()->getText());
+            std::shared_ptr<ArrayDeclarator> ret_declarator = std::make_shared<ArrayDeclarator>(arraySize);
+            ret_var->addDeclarator(ret_declarator);
+        }
+        ret_var->addSpecifier(ret_specifier);
+    } else
+    {
+        ret_var = std::make_shared<Symbol>("UNNAMED RETURNED SYMBOL", ctx->getStart()->getLine());
+    }
+
     // std::cout << "FUNCTION FOUND" << ctx->toStringTree(true);
     std::shared_ptr<Symbol> symbol = std::make_shared<Symbol>(name, ctx->getStart()->getLine());
-    std::shared_ptr<FunctionDeclarator> declarator = std::make_shared<FunctionDeclarator>();
+    std::shared_ptr<FunctionDeclarator> declarator = std::make_shared<FunctionDeclarator>(ret_var);
+    
+    /* Function Params */
+    
+    for (auto param_ctx : ctx->beginfunc()->paramlist()->param())
+    {
+        /* Creates the symbol and the specifier */
+        std::shared_ptr<Symbol> param_var = std::make_shared<Symbol>(param_ctx->ID()->getText(), ctx->getStart()->getLine());
+        std::shared_ptr<SymbolSpecifier> param_specifier = std::make_shared<SymbolSpecifier>("S");
+
+        /* array */
+        if (param_ctx->type()->ARRAY())
+        {
+            int arraySize = stoi(param_ctx->type()->INTLIT()->getText());
+            std::shared_ptr<ArrayDeclarator> param_declarator = std::make_shared<ArrayDeclarator>(arraySize);
+            param_var->addDeclarator(param_declarator);
+        }
+        param_var->addSpecifier(param_specifier);
+
+        declarator->addParam(param_var);
+    }
+
     symbol->addDeclarator(declarator);
 
     return symbol;
@@ -109,7 +153,7 @@ antlrcpp::Any grimoireDeclarationVisitor::visitVardeclaration(antlrcppgrim::grim
  * @return
  */
 antlrcpp::Any grimoireDeclarationVisitor::visitFunctdeclaration(antlrcppgrim::grimoireParser::FunctdeclarationContext *ctx) {
-    std::string name = ctx->ID() ? ctx->ID()->getText() : "";
+    std::string name = ctx->beginfunc()->ID() ? ctx->beginfunc()->ID()->getText() : "";
     std::cout << this->filename << "(" << ctx->getStart()->getLine() << ")" <<  " : function " << name;
 
     std::shared_ptr<Symbol> symbol = parseSubroutine(ctx);

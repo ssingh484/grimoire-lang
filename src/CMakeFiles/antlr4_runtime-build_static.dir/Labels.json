@@ -1,0 +1,22 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/antlr4_runtime-build_static"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/cb2845babb0bddb1272ba0b13c5323cb/antlr4_runtime-build_static.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-build_static.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"antlr4_runtime"
+		],
+		"name" : "antlr4_runtime-build_static"
+	}
+}

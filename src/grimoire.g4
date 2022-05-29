@@ -12,85 +12,68 @@ vardeclarationlist :
 vardeclaration : VAR  ID  COLON  type  optionalinit  SEMICOLON;
 functdeclarationlist :
                      | functdeclaration  functdeclarationlist;
-functdeclaration : FUNC ID OPENBRACKET paramlist CLOSEBRACKET rettype BEGIN statseq END;
+functdeclaration : beginfunc statseq endfunc;
+beginfunc : FUNC ID OPENBRACKET paramlist CLOSEBRACKET rettype BEGIN ;
+endfunc : END ;
 type : INT
        | ARRAY OPENSQBRACKET INTLIT CLOSESQBRACKET OF INT;
 optionalinit :
              | ASSIGNMENT INTLIT;
-paramlist :
-          | param paramlisttail;
-paramlisttail :
-              | COMMA param paramlisttail;
+paramlist : (param (COMMA param)*)? ;
 rettype :
         | COLON type;
 param : ID COLON type;
 statseq : stat stattail;
 stattail:
         | statseq;
-stat : ID idstat
+stat : assignstat
+     | funccall SEMICOLON
      | condstat
-     | WHILE expr  DO statseq ENDDO SEMICOLON
-     | FOR ID ASSIGNMENT expr  TO expr  DO statseq ENDDO SEMICOLON
-     | BREAK SEMICOLON
-     | RET expr  SEMICOLON
-     | LET declarationsegment IN statseq END;
+     | forstat 
+     | retstat ;
+     
+    //  | WHILE expr  DO statseq ENDDO SEMICOLON
+    // | BREAK SEMICOLON
 
-idstat : assignstat ASSIGNMENT idstat2
-    |	OPENBRACKET exprlist CLOSEBRACKET SEMICOLON ;
-idstat2 : expr SEMICOLON ;
+assignstat: ID lvaluetail ASSIGNMENT expr SEMICOLON ;
 
-condstat : IF expr THEN statseq condstattail ;
-condstattail : ENDIF SEMICOLON
-    | ELSE statseq ENDIF SEMICOLON ;
-expr : logicoperation1;
-logicoperation1 : logicoperation2 logicoperationtail1;
-logicoperationtail1 : OR logicoperation1
-                | ;
-logicoperation2 : compoperation1 logicoperationtail2;
-logicoperationtail2 : AND logicoperation2
-                | ;
-compoperation1 : compoperation2 compoperationtail1;
-compoperationtail1 : LESSEQUAL compoperation1
-                | ;
-compoperation2 : compoperation3 compoperationtail2;
-compoperationtail2 : GREATEQUAL compoperation2
-                | ;
-compoperation3 : compoperation4 compoperationtail3;
-compoperationtail3 : LESS compoperation3
-                | ;
-compoperation4 : compoperation5 compoperationtail4;
-compoperationtail4 : GREAT compoperation4
-                | ;
-compoperation5 : compoperation6 compoperationtail5;
-compoperationtail5 : NOTEQUAL compoperation5
-                | ;
-compoperation6 : sumoperation1 compoperationtail6;
-compoperationtail6 : EQUAL compoperation6
-                | ;
-sumoperation1 : sumoperation2 sumoperationtail1;
-sumoperationtail1 : SUB sumoperation1
-               | ;
-sumoperation2 : multoperation1 sumoperationtail2;
-sumoperationtail2 : ADD sumoperation2
-               | ;
-multoperation1 : multoperation2 multoperationtail1;
-multoperationtail1 : DIV multoperation1
-               | ;
-multoperation2 : term multoperationtail2;
-multoperationtail2 : MULT multoperation2
-               | ;
+funccall : ID OPENBRACKET exprlist CLOSEBRACKET ;
+
+condstat : ifcond statseq condstattail ;
+condstattail : endcondstat
+    | elsecond endcondstat ;
+
+ifcond : IF expr THEN ;
+elsecond : ELSE statseq ;
+endcondstat : ENDIF SEMICOLON ;
+
+forstat : FOR ID ASSIGNMENT expr TO expr DO statseq endfor ;
+endfor : ENDDO SEMICOLON ;
+
+retstat : RET expr  SEMICOLON ;
+
+expr : term MULT expr
+    | term DIV expr
+    | term ADD expr
+    | term SUB expr
+    | term EQUAL expr
+    | term NOTEQUAL expr
+    | term GREAT expr
+    | term LESS expr
+    | term GREATEQUAL expr
+    | term LESSEQUAL expr
+    | term AND expr
+    | term OR expr 
+    | NOT expr
+    | term ;
+
 term : INTLIT
      | ID lvaluetail
+     | funccall
      | OPENBRACKET expr CLOSEBRACKET;
-exprlist :
-         | expr exprlisttail;
-exprlisttail : COMMA expr exprlisttail
-             | ;
+exprlist : (expr (COMMA expr)*)? ;
 //lvalue : ID lvaluetail;
 lvaluetail : OPENSQBRACKET expr CLOSESQBRACKET
-          | OPENBRACKET exprlist CLOSEBRACKET
-          | ;
-assignstat : OPENSQBRACKET expr CLOSESQBRACKET
           | ;
 
 
@@ -154,6 +137,7 @@ LESSEQUAL           : '<=';
 GREATEQUAL          : '>=';
 AND                 : '&';
 OR                  : '|';
+NOT                 : '~';
 
 
 ASSIGNMENT          : ':=';

@@ -45,8 +45,10 @@ add_executable(grimoire src/main.cpp
         src/antlr-generated/grimoireLexer.cpp
         src/antlr-generated/grimoireParser.cpp
         src/grimoire/compiler.cpp
-        src/grimoire/symtab.cpp src/grimoire/declaration.cpp )
-        # src/grimoire/parser.cpp src/grimoire/generator.cpp src/grimoire/grimoirejit.h
+        src/grimoire/symtab.cpp
+        src/grimoire/declaration.cpp
+        src/grimoire/parser.cpp )
+        # src/grimoire/generator.cpp src/grimoire/grimoirejit.h
 
 target_link_libraries(grimoire  antlr4_static ${llvm_libs})
 # add_custom_command(TARGET grimoire

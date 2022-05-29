@@ -6,6 +6,7 @@
 #include "antlr-generated/grimoireParser.h"
 #include "compiler.h"
 #include "declaration.h"
+#include "parser.h"
 
 void Compiler::addSource(const char* filename) {
     this->sources.push_back(filename);
@@ -53,7 +54,7 @@ int Compiler::compile() {
 
         std::cout << "Made Parser" <<  "\n";
 
-        parser.removeErrorListeners();
+        // parser.removeErrorListeners();
 
         antlrcppgrim::grimoireParser::GrimoireContext *tree = parser.grimoire();
         // antlrcppgrim::grimoireParser::TermContext *tree = parser.term();
@@ -68,9 +69,9 @@ int Compiler::compile() {
         // symbolTable->resolve();
 
         // Second  Pass parse statements
-        // RpgCodeVisitor codeVisitor(file, this);
-        // codeVisitor.visit(tree);
-        //codeVisitor.dump();
+        grimoireCodeVisitor codeVisitor(file, this);
+        codeVisitor.visit(tree);
+        codeVisitor.dump();
 
         // Code Generation
         // GeneratorLLVM *generator =  new GeneratorLLVM(file,emitDebugInfo);

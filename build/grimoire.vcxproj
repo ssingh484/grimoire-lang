@@ -323,6 +323,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\grimoire_lang\src\grimoire\compiler.cpp" />
     <ClCompile Include="D:\grimoire_lang\src\grimoire\symtab.cpp" />
     <ClCompile Include="D:\grimoire_lang\src\grimoire\declaration.cpp" />
+    <ClCompile Include="D:\grimoire_lang\src\grimoire\parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\grimoire_lang\build\ZERO_CHECK.vcxproj">

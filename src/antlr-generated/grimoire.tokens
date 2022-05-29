@@ -45,7 +45,8 @@ LESSEQUAL=44
 GREATEQUAL=45
 AND=46
 OR=47
-ASSIGNMENT=48
+NOT=48
+ASSIGNMENT=49
 'main'=4
 'array'=5
 'break'=6
@@ -87,4 +88,5 @@ ASSIGNMENT=48
 '>='=45
 '&'=46
 '|'=47
-':='=48
+'~'=48
+':='=49

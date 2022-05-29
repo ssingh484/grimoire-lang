@@ -20,7 +20,7 @@ public:
     COMMA = 29, COLON = 30, SEMICOLON = 31, OPENBRACKET = 32, CLOSEBRACKET = 33, 
     OPENSQBRACKET = 34, CLOSESQBRACKET = 35, ADD = 36, SUB = 37, MULT = 38, 
     DIV = 39, EQUAL = 40, NOTEQUAL = 41, LESS = 42, GREAT = 43, LESSEQUAL = 44, 
-    GREATEQUAL = 45, AND = 46, OR = 47, ASSIGNMENT = 48
+    GREATEQUAL = 45, AND = 46, OR = 47, NOT = 48, ASSIGNMENT = 49
   };
 
   explicit grimoireLexer(antlr4::CharStream *input);

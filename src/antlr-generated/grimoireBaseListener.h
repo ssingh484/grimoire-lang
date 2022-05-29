@@ -36,6 +36,12 @@ public:
   virtual void enterFunctdeclaration(grimoireParser::FunctdeclarationContext * /*ctx*/) override { }
   virtual void exitFunctdeclaration(grimoireParser::FunctdeclarationContext * /*ctx*/) override { }
 
+  virtual void enterBeginfunc(grimoireParser::BeginfuncContext * /*ctx*/) override { }
+  virtual void exitBeginfunc(grimoireParser::BeginfuncContext * /*ctx*/) override { }
+
+  virtual void enterEndfunc(grimoireParser::EndfuncContext * /*ctx*/) override { }
+  virtual void exitEndfunc(grimoireParser::EndfuncContext * /*ctx*/) override { }
+
   virtual void enterType(grimoireParser::TypeContext * /*ctx*/) override { }
   virtual void exitType(grimoireParser::TypeContext * /*ctx*/) override { }
 
@@ -44,9 +50,6 @@ public:
 
   virtual void enterParamlist(grimoireParser::ParamlistContext * /*ctx*/) override { }
   virtual void exitParamlist(grimoireParser::ParamlistContext * /*ctx*/) override { }
-
-  virtual void enterParamlisttail(grimoireParser::ParamlisttailContext * /*ctx*/) override { }
-  virtual void exitParamlisttail(grimoireParser::ParamlisttailContext * /*ctx*/) override { }
 
   virtual void enterRettype(grimoireParser::RettypeContext * /*ctx*/) override { }
   virtual void exitRettype(grimoireParser::RettypeContext * /*ctx*/) override { }
@@ -63,11 +66,11 @@ public:
   virtual void enterStat(grimoireParser::StatContext * /*ctx*/) override { }
   virtual void exitStat(grimoireParser::StatContext * /*ctx*/) override { }
 
-  virtual void enterIdstat(grimoireParser::IdstatContext * /*ctx*/) override { }
-  virtual void exitIdstat(grimoireParser::IdstatContext * /*ctx*/) override { }
+  virtual void enterAssignstat(grimoireParser::AssignstatContext * /*ctx*/) override { }
+  virtual void exitAssignstat(grimoireParser::AssignstatContext * /*ctx*/) override { }
 
-  virtual void enterIdstat2(grimoireParser::Idstat2Context * /*ctx*/) override { }
-  virtual void exitIdstat2(grimoireParser::Idstat2Context * /*ctx*/) override { }
+  virtual void enterFunccall(grimoireParser::FunccallContext * /*ctx*/) override { }
+  virtual void exitFunccall(grimoireParser::FunccallContext * /*ctx*/) override { }
 
   virtual void enterCondstat(grimoireParser::CondstatContext * /*ctx*/) override { }
   virtual void exitCondstat(grimoireParser::CondstatContext * /*ctx*/) override { }
@@ -75,80 +78,26 @@ public:
   virtual void enterCondstattail(grimoireParser::CondstattailContext * /*ctx*/) override { }
   virtual void exitCondstattail(grimoireParser::CondstattailContext * /*ctx*/) override { }
 
+  virtual void enterIfcond(grimoireParser::IfcondContext * /*ctx*/) override { }
+  virtual void exitIfcond(grimoireParser::IfcondContext * /*ctx*/) override { }
+
+  virtual void enterElsecond(grimoireParser::ElsecondContext * /*ctx*/) override { }
+  virtual void exitElsecond(grimoireParser::ElsecondContext * /*ctx*/) override { }
+
+  virtual void enterEndcondstat(grimoireParser::EndcondstatContext * /*ctx*/) override { }
+  virtual void exitEndcondstat(grimoireParser::EndcondstatContext * /*ctx*/) override { }
+
+  virtual void enterForstat(grimoireParser::ForstatContext * /*ctx*/) override { }
+  virtual void exitForstat(grimoireParser::ForstatContext * /*ctx*/) override { }
+
+  virtual void enterEndfor(grimoireParser::EndforContext * /*ctx*/) override { }
+  virtual void exitEndfor(grimoireParser::EndforContext * /*ctx*/) override { }
+
+  virtual void enterRetstat(grimoireParser::RetstatContext * /*ctx*/) override { }
+  virtual void exitRetstat(grimoireParser::RetstatContext * /*ctx*/) override { }
+
   virtual void enterExpr(grimoireParser::ExprContext * /*ctx*/) override { }
   virtual void exitExpr(grimoireParser::ExprContext * /*ctx*/) override { }
-
-  virtual void enterLogicoperation1(grimoireParser::Logicoperation1Context * /*ctx*/) override { }
-  virtual void exitLogicoperation1(grimoireParser::Logicoperation1Context * /*ctx*/) override { }
-
-  virtual void enterLogicoperationtail1(grimoireParser::Logicoperationtail1Context * /*ctx*/) override { }
-  virtual void exitLogicoperationtail1(grimoireParser::Logicoperationtail1Context * /*ctx*/) override { }
-
-  virtual void enterLogicoperation2(grimoireParser::Logicoperation2Context * /*ctx*/) override { }
-  virtual void exitLogicoperation2(grimoireParser::Logicoperation2Context * /*ctx*/) override { }
-
-  virtual void enterLogicoperationtail2(grimoireParser::Logicoperationtail2Context * /*ctx*/) override { }
-  virtual void exitLogicoperationtail2(grimoireParser::Logicoperationtail2Context * /*ctx*/) override { }
-
-  virtual void enterCompoperation1(grimoireParser::Compoperation1Context * /*ctx*/) override { }
-  virtual void exitCompoperation1(grimoireParser::Compoperation1Context * /*ctx*/) override { }
-
-  virtual void enterCompoperationtail1(grimoireParser::Compoperationtail1Context * /*ctx*/) override { }
-  virtual void exitCompoperationtail1(grimoireParser::Compoperationtail1Context * /*ctx*/) override { }
-
-  virtual void enterCompoperation2(grimoireParser::Compoperation2Context * /*ctx*/) override { }
-  virtual void exitCompoperation2(grimoireParser::Compoperation2Context * /*ctx*/) override { }
-
-  virtual void enterCompoperationtail2(grimoireParser::Compoperationtail2Context * /*ctx*/) override { }
-  virtual void exitCompoperationtail2(grimoireParser::Compoperationtail2Context * /*ctx*/) override { }
-
-  virtual void enterCompoperation3(grimoireParser::Compoperation3Context * /*ctx*/) override { }
-  virtual void exitCompoperation3(grimoireParser::Compoperation3Context * /*ctx*/) override { }
-
-  virtual void enterCompoperationtail3(grimoireParser::Compoperationtail3Context * /*ctx*/) override { }
-  virtual void exitCompoperationtail3(grimoireParser::Compoperationtail3Context * /*ctx*/) override { }
-
-  virtual void enterCompoperation4(grimoireParser::Compoperation4Context * /*ctx*/) override { }
-  virtual void exitCompoperation4(grimoireParser::Compoperation4Context * /*ctx*/) override { }
-
-  virtual void enterCompoperationtail4(grimoireParser::Compoperationtail4Context * /*ctx*/) override { }
-  virtual void exitCompoperationtail4(grimoireParser::Compoperationtail4Context * /*ctx*/) override { }
-
-  virtual void enterCompoperation5(grimoireParser::Compoperation5Context * /*ctx*/) override { }
-  virtual void exitCompoperation5(grimoireParser::Compoperation5Context * /*ctx*/) override { }
-
-  virtual void enterCompoperationtail5(grimoireParser::Compoperationtail5Context * /*ctx*/) override { }
-  virtual void exitCompoperationtail5(grimoireParser::Compoperationtail5Context * /*ctx*/) override { }
-
-  virtual void enterCompoperation6(grimoireParser::Compoperation6Context * /*ctx*/) override { }
-  virtual void exitCompoperation6(grimoireParser::Compoperation6Context * /*ctx*/) override { }
-
-  virtual void enterCompoperationtail6(grimoireParser::Compoperationtail6Context * /*ctx*/) override { }
-  virtual void exitCompoperationtail6(grimoireParser::Compoperationtail6Context * /*ctx*/) override { }
-
-  virtual void enterSumoperation1(grimoireParser::Sumoperation1Context * /*ctx*/) override { }
-  virtual void exitSumoperation1(grimoireParser::Sumoperation1Context * /*ctx*/) override { }
-
-  virtual void enterSumoperationtail1(grimoireParser::Sumoperationtail1Context * /*ctx*/) override { }
-  virtual void exitSumoperationtail1(grimoireParser::Sumoperationtail1Context * /*ctx*/) override { }
-
-  virtual void enterSumoperation2(grimoireParser::Sumoperation2Context * /*ctx*/) override { }
-  virtual void exitSumoperation2(grimoireParser::Sumoperation2Context * /*ctx*/) override { }
-
-  virtual void enterSumoperationtail2(grimoireParser::Sumoperationtail2Context * /*ctx*/) override { }
-  virtual void exitSumoperationtail2(grimoireParser::Sumoperationtail2Context * /*ctx*/) override { }
-
-  virtual void enterMultoperation1(grimoireParser::Multoperation1Context * /*ctx*/) override { }
-  virtual void exitMultoperation1(grimoireParser::Multoperation1Context * /*ctx*/) override { }
-
-  virtual void enterMultoperationtail1(grimoireParser::Multoperationtail1Context * /*ctx*/) override { }
-  virtual void exitMultoperationtail1(grimoireParser::Multoperationtail1Context * /*ctx*/) override { }
-
-  virtual void enterMultoperation2(grimoireParser::Multoperation2Context * /*ctx*/) override { }
-  virtual void exitMultoperation2(grimoireParser::Multoperation2Context * /*ctx*/) override { }
-
-  virtual void enterMultoperationtail2(grimoireParser::Multoperationtail2Context * /*ctx*/) override { }
-  virtual void exitMultoperationtail2(grimoireParser::Multoperationtail2Context * /*ctx*/) override { }
 
   virtual void enterTerm(grimoireParser::TermContext * /*ctx*/) override { }
   virtual void exitTerm(grimoireParser::TermContext * /*ctx*/) override { }
@@ -156,14 +105,8 @@ public:
   virtual void enterExprlist(grimoireParser::ExprlistContext * /*ctx*/) override { }
   virtual void exitExprlist(grimoireParser::ExprlistContext * /*ctx*/) override { }
 
-  virtual void enterExprlisttail(grimoireParser::ExprlisttailContext * /*ctx*/) override { }
-  virtual void exitExprlisttail(grimoireParser::ExprlisttailContext * /*ctx*/) override { }
-
   virtual void enterLvaluetail(grimoireParser::LvaluetailContext * /*ctx*/) override { }
   virtual void exitLvaluetail(grimoireParser::LvaluetailContext * /*ctx*/) override { }
-
-  virtual void enterAssignstat(grimoireParser::AssignstatContext * /*ctx*/) override { }
-  virtual void exitAssignstat(grimoireParser::AssignstatContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

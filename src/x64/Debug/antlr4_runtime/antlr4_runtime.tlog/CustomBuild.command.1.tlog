@@ -1,0 +1,134 @@
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\F594B275B269723D649C985B2C1873DD\ANTLR4_RUNTIME-MKDIR.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/grimoire_lang/src/antlr4_runtime/tmp/antlr4_runtime-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\F594B275B269723D649C985B2C1873DD\ANTLR4_RUNTIME-DOWNLOAD.RULE
+setlocal
+cd D:\grimoire_lang\src\antlr4_runtime\src
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/grimoire_lang/src/antlr4_runtime/tmp/antlr4_runtime-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\F594B275B269723D649C985B2C1873DD\ANTLR4_RUNTIME-UPDATE.RULE
+setlocal
+cd D:\grimoire_lang\src\antlr4_runtime\src\antlr4_runtime
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/grimoire_lang/src/antlr4_runtime/tmp/antlr4_runtime-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\F594B275B269723D649C985B2C1873DD\ANTLR4_RUNTIME-PATCH.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\F594B275B269723D649C985B2C1873DD\ANTLR4_RUNTIME-CONFIGURE.RULE
+setlocal
+cd D:\grimoire_lang\src\antlr4_runtime\src\antlr4_runtime\runtime\Cpp
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" "-GVisual Studio 16 2019" "-DCMAKE_GENERATOR_INSTANCE:INTERNAL=C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools" -CD:/grimoire_lang/src/antlr4_runtime/tmp/antlr4_runtime-cache-Debug.cmake D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime/runtime/Cpp
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\F594B275B269723D649C985B2C1873DD\ANTLR4_RUNTIME-BUILD.RULE
+setlocal
+cd D:\grimoire_lang\src\antlr4_runtime\src\antlr4_runtime\runtime\Cpp
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\F594B275B269723D649C985B2C1873DD\ANTLR4_RUNTIME-INSTALL.RULE
+setlocal
+cd D:\grimoire_lang\src\antlr4_runtime\src\antlr4_runtime\runtime\Cpp
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\1E4152DCB1F7CC534A18F1806F2060DB\ANTLR4_RUNTIME-COMPLETE.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/grimoire_lang/src/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/CMakeFiles/Debug/antlr4_runtime-complete
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/grimoire_lang/src/antlr4_runtime/src/antlr4_runtime-stamp/Debug/antlr4_runtime-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\SRC\CMAKEFILES\CB2845BABB0BDDB1272BA0B13C5323CB\ANTLR4_RUNTIME.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GRIMOIRE_LANG\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/grimoire_lang -BD:/grimoire_lang/src --check-stamp-file D:/grimoire_lang/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,6 @@
+# Target labels
+ antlr4_runtime
+# Source files and their labels
+D:/grimoire_lang/src/CMakeFiles/antlr4_runtime-build_shared
+D:/grimoire_lang/src/CMakeFiles/cb2845babb0bddb1272ba0b13c5323cb/antlr4_runtime-build_shared.rule
+D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-build_shared.rule

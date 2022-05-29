@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/antlr4_runtime"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/cb2845babb0bddb1272ba0b13c5323cb/antlr4_runtime.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/1e4152dcb1f7cc534a18f1806f2060db/antlr4_runtime-complete.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-build.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-configure.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-download.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-install.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-mkdir.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-patch.rule"
+		},
+		{
+			"file" : "D:/grimoire_lang/src/CMakeFiles/f594b275b269723d649c985b2c1873dd/antlr4_runtime-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"antlr4_runtime"
+		],
+		"name" : "antlr4_runtime"
+	}
+}

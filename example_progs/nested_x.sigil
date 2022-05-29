@@ -1,0 +1,29 @@
+main let 
+    var X : int;
+in begin
+    X := readi();
+    printi(X);
+    printc(32);  /* SPACE */
+    
+    let 
+        var Y : int;
+    in
+        X := readi();
+        printi(X);
+        printc(32);  /* SPACE */
+
+        let
+            var Z : int;
+        in
+            X := readf();
+            printf(X);
+            printc(32);  /* SPACE */
+        end
+
+        printi(X);
+        printc(32);   /* SPACE */
+    end
+    
+    printi(X);
+    printc(32);   /* SPACE */
+end
