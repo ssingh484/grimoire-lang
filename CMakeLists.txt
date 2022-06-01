@@ -25,7 +25,7 @@ add_definitions(${LLVM_DEFINITIONS_LIST})
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
-llvm_map_components_to_libnames(llvm_libs support core irreader)
+llvm_map_components_to_libnames(llvm_libs support core irreader target)
 
 include_directories(src)
 include_directories(src/antlr-generated)
@@ -47,8 +47,9 @@ add_executable(grimoire src/main.cpp
         src/grimoire/compiler.cpp
         src/grimoire/symtab.cpp
         src/grimoire/declaration.cpp
-        src/grimoire/parser.cpp )
-        # src/grimoire/generator.cpp src/grimoire/grimoirejit.h
+        src/grimoire/parser.cpp
+        src/grimoire/generator.cpp )
+        # src/grimoire/grimoirejit.h
 
 target_link_libraries(grimoire  antlr4_static ${llvm_libs})
 # add_custom_command(TARGET grimoire

@@ -14,9 +14,9 @@ grimoireCodeVisitor::grimoireCodeVisitor(const std::string &filename, const Comp
  * @return
  */
 antlrcpp::Any grimoireCodeVisitor::visitGrimoire(antlrcppgrim::grimoireParser::GrimoireContext *ctx) {
-    std::cout << "----- Processing code statements -----";
-    std::shared_ptr<FunctionDeclaration> subroutine = FunctionDeclaration::create("main");
-    scopeStack.push(subroutine);
+    std::cout << "----- Processing Grimoire Program -----";
+    // std::shared_ptr<FunctionDeclaration> subroutine = FunctionDeclaration::create("main");
+    // scopeStack.push(subroutine);
 
     return antlrcppgrim::grimoireBaseVisitor::visitGrimoire(ctx);
 }
@@ -32,18 +32,22 @@ antlrcpp::Any grimoireCodeVisitor::visitFunccall(antlrcppgrim::grimoireParser::F
     std::string name = ctx->ID() ? ctx->ID()->getText() : "";
     std::cout << this->filename << "(" << ctx->getStart()->getLine() << ")" <<  " : FUNC_CALL " << trim(name);
 
-    std::shared_ptr<FunctionCall> call =  FunctionCall::create(trim(name),ctx->getStart()->getLine());
+    std::vector<std::shared_ptr<Expression>> args;
 
     if (! ctx->exprlist()->expr().empty())
     {
+        
         for ( auto expr_context : ctx->exprlist()->expr())
         {
-            std::shared_ptr<Expression> arg = grimoireCompilerVisitor::parseExpression(expr_context);
-            call->add(arg);
+            args.push_back(grimoireCompilerVisitor::parseExpression(expr_context));
+            
+            // call->add(arg);
+            // std::cout << "Processing Arg: " << args.at(0).use_count() <<std::endl;
         }
         
     }
     
+    std::shared_ptr<FunctionCall> call =  FunctionCall::create(trim(name), args, ctx->getStart()->getLine());
 
     addNode(call);
 
@@ -59,9 +63,9 @@ antlrcpp::Any grimoireCodeVisitor::visitFunccall(antlrcppgrim::grimoireParser::F
 antlrcpp::Any grimoireCodeVisitor::visitBeginfunc(antlrcppgrim::grimoireParser::BeginfuncContext *ctx) {
     std::cout << this->filename << "(" << ctx->getStart()->getLine() << ")" <<  " : BEGIN_FUNCTION " <<  ctx->ID()->getText();
 
-    std::shared_ptr<Node> main = scopeStack.top();
-    scopeStack.pop();
-    addNode(main);
+    // std::shared_ptr<Node> main = scopeStack.top();
+    // scopeStack.pop();
+    // addNode(main);
 
     /* Function Name */
     std::string name =  ctx->ID()->getText();
@@ -105,6 +109,7 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
         std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(var_name);
         if(!symbol) {
             std::cout << " UNDEFINED identifier: " << var_name;
+            exit(-1);
             return nullptr;
         }
 
@@ -124,6 +129,7 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
                 addNode(assignment);
             } else {
                 std::cout << "UNIDENTIFIED SYMBOL: " << name;
+                exit(-1);
                 return nullptr;
             }
         } else {
@@ -139,6 +145,7 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
                 addNode(assignment);
             } else {
                 std::cout << "UNIDENTIFIED SYMBOL: " << name;
+                exit(-1);
                 return nullptr;
             }
         } 
@@ -207,7 +214,7 @@ antlrcpp::Any grimoireCodeVisitor::visitElsecond(antlrcppgrim::grimoireParser::E
     }
     /* Get the conditional clause from the scopeStack stack and add the else condition to it*/
     if(ConditionalClause* cond_node = dynamic_cast<ConditionalClause*>(scopeStack.top().get())) {
-        cond_node->setOther(else_node);
+        cond_node->setElse(else_node);
         scopeStack.push(else_node);
     }
 
@@ -260,16 +267,22 @@ antlrcpp::Any grimoireCodeVisitor::visitForstat(antlrcppgrim::grimoireParser::Fo
         if (symbol)
         {
             std::shared_ptr<Expression> target = Identifier::create(name, ctx->getStart()->getLine());
+            
+            std::shared_ptr<Expression> increment =  IntegerLiteral::create("1",ctx->getStart()->getLine());
+            std::string op  =  "+";
+            std::shared_ptr<Expression> change_exp = MathExpression::create(target, op, increment, ctx->getStart()->getLine());
+            std::shared_ptr<AssignmentStatement> change = AssignmentStatement::create(target, change_exp,ctx->getStart()->getLine());
 
             std::shared_ptr<AssignmentStatement> start_assign = AssignmentStatement::create(target, start_exp, ctx->getStart()->getLine());
 
             std::shared_ptr<Expression> end = ComparisonExpression::create(target, "<=", stop_exp, ctx->getStart()->getLine());
         
 
-            std::shared_ptr<ForStatement> loop = ForStatement::create(start_assign, end, ctx->getStart()->getLine());
+            std::shared_ptr<ForStatement> loop = ForStatement::create(start_assign, end, change, ctx->getStart()->getLine());
             scopeStack.push(loop);
         } else {
             std::cout << "UNIDENTIFIED SYMBOL: " << name;
+            exit(-1);
             return nullptr;
         }
 

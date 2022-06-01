@@ -7,6 +7,7 @@
 #include "compiler.h"
 #include "declaration.h"
 #include "parser.h"
+#include "generator.h"
 
 void Compiler::addSource(const char* filename) {
     this->sources.push_back(filename);
@@ -74,9 +75,9 @@ int Compiler::compile() {
         codeVisitor.dump();
 
         // Code Generation
-        // GeneratorLLVM *generator =  new GeneratorLLVM(file,emitDebugInfo);
-        // generator->process(symbolTable,ast);
-        // generator->dump();
+        GeneratorLLVM *generator =  new GeneratorLLVM(file);
+        generator->process(symbolTable,ast);
+        generator->dump();
 
     }
     return 0;

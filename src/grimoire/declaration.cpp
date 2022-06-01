@@ -18,7 +18,7 @@ std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoirePars
 
         /* Creates the symbol and the specifier */
         std::shared_ptr<Symbol> symbol = std::make_shared<Symbol>(name, ctx->getStart()->getLine());
-        std::shared_ptr<SymbolSpecifier> specifier = std::make_shared<SymbolSpecifier>("S");
+        std::shared_ptr<SymbolSpecifier> specifier = std::make_shared<SymbolSpecifier>("I");
 
         /* array */
         if (ctx->type()->ARRAY())
@@ -30,7 +30,7 @@ std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoirePars
         
 
         /* value */
-        if (ctx->optionalinit()->ASSIGNMENT())
+        if (ctx->optionalinit()->EMBODIES())
         {
             specifier->setValue(IntegerLiteral::create( ctx->optionalinit()->INTLIT()->getText(), ctx->getStart()->getLine()));
         } else
@@ -60,7 +60,7 @@ std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoirePars
     {
         /* Creates the symbol and the specifier */
         ret_var = std::make_shared<Symbol>("UNNAMED RETURNED SYMBOL", ctx->getStart()->getLine());
-        std::shared_ptr<SymbolSpecifier> ret_specifier = std::make_shared<SymbolSpecifier>("S");
+        std::shared_ptr<SymbolSpecifier> ret_specifier = std::make_shared<SymbolSpecifier>("I");
 
         /* array */
         if (ctx->beginfunc()->rettype()->type()->ARRAY())
@@ -85,7 +85,7 @@ std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoirePars
     {
         /* Creates the symbol and the specifier */
         std::shared_ptr<Symbol> param_var = std::make_shared<Symbol>(param_ctx->ID()->getText(), ctx->getStart()->getLine());
-        std::shared_ptr<SymbolSpecifier> param_specifier = std::make_shared<SymbolSpecifier>("S");
+        std::shared_ptr<SymbolSpecifier> param_specifier = std::make_shared<SymbolSpecifier>("I");
 
         /* array */
         if (param_ctx->type()->ARRAY())

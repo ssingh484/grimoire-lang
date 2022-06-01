@@ -1,14 +1,23 @@
-main let
-    var X : int := 0;
-    var Y : int;
-    function myPrint ( X : int, Y : array[22] of int) begin
-        printi();      /* print int */
-	Y := 22;
-	return ( Y + 21 ) ;
-    end
-in begin
-    X := printi(X,Y) + 2;
-    printf();      /* print float */
-    Y := 2;
-    myPrint();
-end
+summon i from int embodies 73;
+summon l from int embodies 76;
+summon o from int embodies 79;
+summon v from int embodies 86;
+summon space from int embodies 32;
+summon e from int embodies 69;
+summon y from int embodies 89;
+summon u from int embodies 85;
+summon arr_test from array [10] of int embodies 85;
+
+spell genesis ( ) from int {
+putchar(i);
+putchar(space);
+putchar(l);
+putchar(o);
+putchar(v);
+putchar(e);
+putchar(space);
+putchar(y);
+putchar(o);
+putchar(u);
+return 0;
+}

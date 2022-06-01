@@ -89,6 +89,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitFuncexpr(grimoireParser::FuncexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitCondstat(grimoireParser::CondstatContext *ctx) override {
     return visitChildren(ctx);
   }

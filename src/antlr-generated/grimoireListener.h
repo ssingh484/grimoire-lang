@@ -70,6 +70,9 @@ public:
   virtual void enterFunccall(grimoireParser::FunccallContext *ctx) = 0;
   virtual void exitFunccall(grimoireParser::FunccallContext *ctx) = 0;
 
+  virtual void enterFuncexpr(grimoireParser::FuncexprContext *ctx) = 0;
+  virtual void exitFuncexpr(grimoireParser::FuncexprContext *ctx) = 0;
+
   virtual void enterCondstat(grimoireParser::CondstatContext *ctx) = 0;
   virtual void exitCondstat(grimoireParser::CondstatContext *ctx) = 0;
 

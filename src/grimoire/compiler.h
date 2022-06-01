@@ -104,6 +104,7 @@ public:
                     return ArrayIdentifier::create(var, index, ctx->getStart()->getLine());
                 } else {
                     std::cout << "UNIDENTIFIED SYMBOL: " << name;
+                    exit(-1);
                     return nullptr;
                 }
             } else {
@@ -114,12 +115,26 @@ public:
                     return Identifier::create(name, ctx->getStart()->getLine());
                 } else {
                     std::cout << "UNIDENTIFIED SYMBOL: " << name;
+                    exit(-1);
                     return nullptr;
                 }
             }   
-        } else if (ctx->funccall())
+        } else if (ctx->funcexpr())
         {
-            return FunctionCall::create(ctx->funccall()->ID()->getText(), ctx->getStart()->getLine());
+            std::vector<std::shared_ptr<Expression>> args;
+            if (! ctx->funcexpr()->exprlist()->expr().empty())
+            {
+                
+                for ( auto expr_context : ctx->funcexpr()->exprlist()->expr())
+                {
+                    args.push_back(grimoireCompilerVisitor::parseExpression(expr_context));
+                    
+                    // call->add(arg);
+                    // std::cout << "Processing Arg: " << call->getArgs().size() <<std::endl;
+                }
+                
+            }
+            return FunctionCall::create(trim(ctx->funcexpr()->ID()->getText()), args, ctx->getStart()->getLine());
         }  else
         {
             return parseExpression(ctx->expr());

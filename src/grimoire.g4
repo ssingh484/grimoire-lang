@@ -5,24 +5,24 @@ grammar grimoire;
 */
 
 //tiger : MAIN  LET  ID  IN  BEGIN  ID  END NEWLINE;
-grimoire : MAIN LET declarationsegment  IN  BEGIN  statseq  END;
+grimoire : declarationsegment;
 declarationsegment : vardeclarationlist  functdeclarationlist;
 vardeclarationlist :    
                    | vardeclaration  vardeclarationlist;
-vardeclaration : VAR  ID  COLON  type  optionalinit  SEMICOLON;
+vardeclaration : SUMMON  ID  FROM  type  optionalinit  SEMICOLON;
 functdeclarationlist :
                      | functdeclaration  functdeclarationlist;
 functdeclaration : beginfunc statseq endfunc;
-beginfunc : FUNC ID OPENBRACKET paramlist CLOSEBRACKET rettype BEGIN ;
-endfunc : END ;
+beginfunc : FUNC ID OPENBRACKET paramlist CLOSEBRACKET rettype OPENBLOCK ;
+endfunc : CLOSEBLOCK ;
 type : INT
        | ARRAY OPENSQBRACKET INTLIT CLOSESQBRACKET OF INT;
 optionalinit :
-             | ASSIGNMENT INTLIT;
+             | EMBODIES INTLIT;
 paramlist : (param (COMMA param)*)? ;
 rettype :
-        | COLON type;
-param : ID COLON type;
+        | FROM type;
+param : ID FROM type;
 statseq : stat stattail;
 stattail:
         | statseq;
@@ -38,17 +38,17 @@ stat : assignstat
 assignstat: ID lvaluetail ASSIGNMENT expr SEMICOLON ;
 
 funccall : ID OPENBRACKET exprlist CLOSEBRACKET ;
-
+funcexpr : ID OPENBRACKET exprlist CLOSEBRACKET ;
 condstat : ifcond statseq condstattail ;
 condstattail : endcondstat
-    | elsecond endcondstat ;
+    | CLOSEBLOCK elsecond endcondstat ;
 
-ifcond : IF expr THEN ;
-elsecond : ELSE statseq ;
-endcondstat : ENDIF SEMICOLON ;
+ifcond : IF expr OPENBLOCK ;
+elsecond : ELSE OPENBLOCK statseq ;
+endcondstat : CLOSEBLOCK ;
 
-forstat : FOR ID ASSIGNMENT expr TO expr DO statseq endfor ;
-endfor : ENDDO SEMICOLON ;
+forstat : FOR ID ASSIGNMENT expr TO expr OPENBLOCK statseq endfor ;
+endfor : CLOSEBLOCK ;
 
 retstat : RET expr  SEMICOLON ;
 
@@ -69,7 +69,7 @@ expr : term MULT expr
 
 term : INTLIT
      | ID lvaluetail
-     | funccall
+     | funcexpr
      | OPENBRACKET expr CLOSEBRACKET;
 exprlist : (expr (COMMA expr)*)? ;
 //lvalue : ID lvaluetail;
@@ -89,20 +89,21 @@ WHITESPACE          : (' ' | '\t')+ -> skip;
 NEWLINE             : ('\r'? '\n' | '\r')+ -> skip;
 COMMENT             : '/*'(.)*?'*/' -> skip;
 
-MAIN                : 'main';
+// MAIN                : 'main';
 ARRAY               : 'array';
 BREAK               : 'break';
 DO                  : 'do';
 IF                  : 'if';
 ELSE                : 'else';
 FOR                 : 'for';
-FUNC                : 'function';
+FUNC                : 'spell';
 LET                 : 'let';
 IN                  : 'in';
 OF                  : 'of';
 THEN                : 'then';
 TO                  : 'to';
-VAR                 : 'var';
+FROM                : 'from';
+SUMMON              : 'summon';
 WHILE               : 'while';
 ENDIF               : 'endif';
 BEGIN               : 'begin';
@@ -111,6 +112,8 @@ ENDDO               : 'enddo';
 RET                 : 'return';
 INT                 : 'int';
 FLOAT               : 'float';
+EMBODIES            : 'embodies';
+ASSIGNMENT          : 'becomes';
 
 ID                  : LETTERS WORDS*;
 
@@ -124,13 +127,15 @@ OPENBRACKET         : '(';
 CLOSEBRACKET        : ')';
 OPENSQBRACKET       : '[';
 CLOSESQBRACKET      : ']';
+OPENBLOCK           : '{';
+CLOSEBLOCK          : '}';
 
 ADD                 : '+';
 SUB                 : '-';
 MULT                : '*';
 DIV                 : '/';
-EQUAL               : '=';
-NOTEQUAL            : '<>';
+EQUAL               : '==';
+NOTEQUAL            : '=/=';
 LESS                : '<';
 GREAT               : '>';
 LESSEQUAL           : '<=';
@@ -138,9 +143,6 @@ GREATEQUAL          : '>=';
 AND                 : '&';
 OR                  : '|';
 NOT                 : '~';
-
-
-ASSIGNMENT          : ':=';
 
 
 /* POTENTIAL FULLY FIXED GRAMMAR

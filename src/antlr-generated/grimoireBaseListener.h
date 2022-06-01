@@ -72,6 +72,9 @@ public:
   virtual void enterFunccall(grimoireParser::FunccallContext * /*ctx*/) override { }
   virtual void exitFunccall(grimoireParser::FunccallContext * /*ctx*/) override { }
 
+  virtual void enterFuncexpr(grimoireParser::FuncexprContext * /*ctx*/) override { }
+  virtual void exitFuncexpr(grimoireParser::FuncexprContext * /*ctx*/) override { }
+
   virtual void enterCondstat(grimoireParser::CondstatContext * /*ctx*/) override { }
   virtual void exitCondstat(grimoireParser::CondstatContext * /*ctx*/) override { }
 

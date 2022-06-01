@@ -116,6 +116,15 @@ public:
         return nullptr;
     }
 
+    ArrayDeclarator *getArrayDeclarator() {
+        for (auto it = type.begin(); it != type.end(); ++it) {
+            if(it->get()->isArray()) {
+                return reinterpret_cast<ArrayDeclarator *>(it->get());
+            }
+        }
+        return nullptr;
+    }
+
     SymbolSpecifier *getSpecifier() {
         for (auto it = type.begin(); it != type.end(); ++it) {
             if(it->get()->isSpecifier()) {
@@ -162,6 +171,8 @@ public:
         }
     }
 
+    bool isMAIN() { return name == "genesis"; }
+
 private:
     int line;                                       /* Source line of the symbol declaration */
     std::string name;                               /* Name of the symbol */
@@ -178,6 +189,14 @@ public:
     void addParam(std::shared_ptr<Symbol> param) {
         params.push_back(param);
     };
+
+    std::vector<std::shared_ptr<Symbol>> getParams() {
+        return params;
+    }
+
+    std::shared_ptr<Symbol> getReturn() {
+        return return_type;
+    }
 
     std::shared_ptr<SymbolType> clone(std::string name) override {
         return std::shared_ptr<SymbolType>();

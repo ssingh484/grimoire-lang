@@ -48,117 +48,118 @@ void grimoireParserInitialize() {
       "grimoire", "declarationsegment", "vardeclarationlist", "vardeclaration", 
       "functdeclarationlist", "functdeclaration", "beginfunc", "endfunc", 
       "type", "optionalinit", "paramlist", "rettype", "param", "statseq", 
-      "stattail", "stat", "assignstat", "funccall", "condstat", "condstattail", 
-      "ifcond", "elsecond", "endcondstat", "forstat", "endfor", "retstat", 
-      "expr", "term", "exprlist", "lvaluetail"
+      "stattail", "stat", "assignstat", "funccall", "funcexpr", "condstat", 
+      "condstattail", "ifcond", "elsecond", "endcondstat", "forstat", "endfor", 
+      "retstat", "expr", "term", "exprlist", "lvaluetail"
     },
     std::vector<std::string>{
-      "", "", "", "", "'main'", "'array'", "'break'", "'do'", "'if'", "'else'", 
-      "'for'", "'function'", "'let'", "'in'", "'of'", "'then'", "'to'", 
-      "'var'", "'while'", "'endif'", "'begin'", "'end'", "'enddo'", "'return'", 
-      "'int'", "'float'", "", "", "", "','", "':'", "';'", "'('", "')'", 
-      "'['", "']'", "'+'", "'-'", "'*'", "'/'", "'='", "'<>'", "'<'", "'>'", 
-      "'<='", "'>='", "'&'", "'|'", "'~'", "':='"
+      "", "", "", "", "'array'", "'break'", "'do'", "'if'", "'else'", "'for'", 
+      "'spell'", "'let'", "'in'", "'of'", "'then'", "'to'", "'from'", "'summon'", 
+      "'while'", "'endif'", "'begin'", "'end'", "'enddo'", "'return'", "'int'", 
+      "'float'", "'embodies'", "'becomes'", "", "", "", "','", "':'", "';'", 
+      "'('", "')'", "'['", "']'", "'{'", "'}'", "'+'", "'-'", "'*'", "'/'", 
+      "'=='", "'=/='", "'<'", "'>'", "'<='", "'>='", "'&'", "'|'", "'~'"
     },
     std::vector<std::string>{
-      "", "WHITESPACE", "NEWLINE", "COMMENT", "MAIN", "ARRAY", "BREAK", 
-      "DO", "IF", "ELSE", "FOR", "FUNC", "LET", "IN", "OF", "THEN", "TO", 
-      "VAR", "WHILE", "ENDIF", "BEGIN", "END", "ENDDO", "RET", "INT", "FLOAT", 
-      "ID", "INTLIT", "FLOATLIT", "COMMA", "COLON", "SEMICOLON", "OPENBRACKET", 
-      "CLOSEBRACKET", "OPENSQBRACKET", "CLOSESQBRACKET", "ADD", "SUB", "MULT", 
-      "DIV", "EQUAL", "NOTEQUAL", "LESS", "GREAT", "LESSEQUAL", "GREATEQUAL", 
-      "AND", "OR", "NOT", "ASSIGNMENT"
+      "", "WHITESPACE", "NEWLINE", "COMMENT", "ARRAY", "BREAK", "DO", "IF", 
+      "ELSE", "FOR", "FUNC", "LET", "IN", "OF", "THEN", "TO", "FROM", "SUMMON", 
+      "WHILE", "ENDIF", "BEGIN", "END", "ENDDO", "RET", "INT", "FLOAT", 
+      "EMBODIES", "ASSIGNMENT", "ID", "INTLIT", "FLOATLIT", "COMMA", "COLON", 
+      "SEMICOLON", "OPENBRACKET", "CLOSEBRACKET", "OPENSQBRACKET", "CLOSESQBRACKET", 
+      "OPENBLOCK", "CLOSEBLOCK", "ADD", "SUB", "MULT", "DIV", "EQUAL", "NOTEQUAL", 
+      "LESS", "GREAT", "LESSEQUAL", "GREATEQUAL", "AND", "OR", "NOT"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,49,282,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,52,283,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
   	21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,27,2,28,7,
-  	28,2,29,7,29,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,
-  	1,2,3,2,76,8,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,3,4,89,8,4,
-  	1,5,1,5,1,5,1,5,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,7,1,7,1,8,1,8,1,8,1,
-  	8,1,8,1,8,1,8,3,8,112,8,8,1,9,1,9,1,9,3,9,117,8,9,1,10,1,10,1,10,5,10,
-  	122,8,10,10,10,12,10,125,9,10,3,10,127,8,10,1,11,1,11,1,11,3,11,132,8,
-  	11,1,12,1,12,1,12,1,12,1,13,1,13,1,13,1,14,1,14,3,14,143,8,14,1,15,1,
-  	15,1,15,1,15,1,15,1,15,1,15,3,15,152,8,15,1,16,1,16,1,16,1,16,1,16,1,
-  	16,1,17,1,17,1,17,1,17,1,17,1,18,1,18,1,18,1,18,1,19,1,19,1,19,1,19,3,
-  	19,173,8,19,1,20,1,20,1,20,1,20,1,21,1,21,1,21,1,22,1,22,1,22,1,23,1,
-  	23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,24,1,24,1,24,1,25,1,25,1,
-  	25,1,25,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,
-  	26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,
-  	26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,
-  	26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,3,26,253,8,26,1,
-  	27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,3,27,263,8,27,1,28,1,28,1,28,5,
-  	28,268,8,28,10,28,12,28,271,9,28,3,28,273,8,28,1,29,1,29,1,29,1,29,1,
-  	29,3,29,280,8,29,1,29,0,0,30,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,
-  	30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,0,0,283,0,60,1,0,0,0,2,68,
-  	1,0,0,0,4,75,1,0,0,0,6,77,1,0,0,0,8,88,1,0,0,0,10,90,1,0,0,0,12,94,1,
-  	0,0,0,14,102,1,0,0,0,16,111,1,0,0,0,18,116,1,0,0,0,20,126,1,0,0,0,22,
-  	131,1,0,0,0,24,133,1,0,0,0,26,137,1,0,0,0,28,142,1,0,0,0,30,151,1,0,0,
-  	0,32,153,1,0,0,0,34,159,1,0,0,0,36,164,1,0,0,0,38,172,1,0,0,0,40,174,
-  	1,0,0,0,42,178,1,0,0,0,44,181,1,0,0,0,46,184,1,0,0,0,48,194,1,0,0,0,50,
-  	197,1,0,0,0,52,252,1,0,0,0,54,262,1,0,0,0,56,272,1,0,0,0,58,279,1,0,0,
-  	0,60,61,5,4,0,0,61,62,5,12,0,0,62,63,3,2,1,0,63,64,5,13,0,0,64,65,5,20,
-  	0,0,65,66,3,26,13,0,66,67,5,21,0,0,67,1,1,0,0,0,68,69,3,4,2,0,69,70,3,
-  	8,4,0,70,3,1,0,0,0,71,76,1,0,0,0,72,73,3,6,3,0,73,74,3,4,2,0,74,76,1,
-  	0,0,0,75,71,1,0,0,0,75,72,1,0,0,0,76,5,1,0,0,0,77,78,5,17,0,0,78,79,5,
-  	26,0,0,79,80,5,30,0,0,80,81,3,16,8,0,81,82,3,18,9,0,82,83,5,31,0,0,83,
-  	7,1,0,0,0,84,89,1,0,0,0,85,86,3,10,5,0,86,87,3,8,4,0,87,89,1,0,0,0,88,
-  	84,1,0,0,0,88,85,1,0,0,0,89,9,1,0,0,0,90,91,3,12,6,0,91,92,3,26,13,0,
-  	92,93,3,14,7,0,93,11,1,0,0,0,94,95,5,11,0,0,95,96,5,26,0,0,96,97,5,32,
-  	0,0,97,98,3,20,10,0,98,99,5,33,0,0,99,100,3,22,11,0,100,101,5,20,0,0,
-  	101,13,1,0,0,0,102,103,5,21,0,0,103,15,1,0,0,0,104,112,5,24,0,0,105,106,
-  	5,5,0,0,106,107,5,34,0,0,107,108,5,27,0,0,108,109,5,35,0,0,109,110,5,
-  	14,0,0,110,112,5,24,0,0,111,104,1,0,0,0,111,105,1,0,0,0,112,17,1,0,0,
-  	0,113,117,1,0,0,0,114,115,5,49,0,0,115,117,5,27,0,0,116,113,1,0,0,0,116,
-  	114,1,0,0,0,117,19,1,0,0,0,118,123,3,24,12,0,119,120,5,29,0,0,120,122,
-  	3,24,12,0,121,119,1,0,0,0,122,125,1,0,0,0,123,121,1,0,0,0,123,124,1,0,
-  	0,0,124,127,1,0,0,0,125,123,1,0,0,0,126,118,1,0,0,0,126,127,1,0,0,0,127,
-  	21,1,0,0,0,128,132,1,0,0,0,129,130,5,30,0,0,130,132,3,16,8,0,131,128,
-  	1,0,0,0,131,129,1,0,0,0,132,23,1,0,0,0,133,134,5,26,0,0,134,135,5,30,
-  	0,0,135,136,3,16,8,0,136,25,1,0,0,0,137,138,3,30,15,0,138,139,3,28,14,
-  	0,139,27,1,0,0,0,140,143,1,0,0,0,141,143,3,26,13,0,142,140,1,0,0,0,142,
-  	141,1,0,0,0,143,29,1,0,0,0,144,152,3,32,16,0,145,146,3,34,17,0,146,147,
-  	5,31,0,0,147,152,1,0,0,0,148,152,3,36,18,0,149,152,3,46,23,0,150,152,
-  	3,50,25,0,151,144,1,0,0,0,151,145,1,0,0,0,151,148,1,0,0,0,151,149,1,0,
-  	0,0,151,150,1,0,0,0,152,31,1,0,0,0,153,154,5,26,0,0,154,155,3,58,29,0,
-  	155,156,5,49,0,0,156,157,3,52,26,0,157,158,5,31,0,0,158,33,1,0,0,0,159,
-  	160,5,26,0,0,160,161,5,32,0,0,161,162,3,56,28,0,162,163,5,33,0,0,163,
-  	35,1,0,0,0,164,165,3,40,20,0,165,166,3,26,13,0,166,167,3,38,19,0,167,
-  	37,1,0,0,0,168,173,3,44,22,0,169,170,3,42,21,0,170,171,3,44,22,0,171,
-  	173,1,0,0,0,172,168,1,0,0,0,172,169,1,0,0,0,173,39,1,0,0,0,174,175,5,
-  	8,0,0,175,176,3,52,26,0,176,177,5,15,0,0,177,41,1,0,0,0,178,179,5,9,0,
-  	0,179,180,3,26,13,0,180,43,1,0,0,0,181,182,5,19,0,0,182,183,5,31,0,0,
-  	183,45,1,0,0,0,184,185,5,10,0,0,185,186,5,26,0,0,186,187,5,49,0,0,187,
-  	188,3,52,26,0,188,189,5,16,0,0,189,190,3,52,26,0,190,191,5,7,0,0,191,
-  	192,3,26,13,0,192,193,3,48,24,0,193,47,1,0,0,0,194,195,5,22,0,0,195,196,
-  	5,31,0,0,196,49,1,0,0,0,197,198,5,23,0,0,198,199,3,52,26,0,199,200,5,
-  	31,0,0,200,51,1,0,0,0,201,202,3,54,27,0,202,203,5,38,0,0,203,204,3,52,
-  	26,0,204,253,1,0,0,0,205,206,3,54,27,0,206,207,5,39,0,0,207,208,3,52,
-  	26,0,208,253,1,0,0,0,209,210,3,54,27,0,210,211,5,36,0,0,211,212,3,52,
-  	26,0,212,253,1,0,0,0,213,214,3,54,27,0,214,215,5,37,0,0,215,216,3,52,
-  	26,0,216,253,1,0,0,0,217,218,3,54,27,0,218,219,5,40,0,0,219,220,3,52,
-  	26,0,220,253,1,0,0,0,221,222,3,54,27,0,222,223,5,41,0,0,223,224,3,52,
-  	26,0,224,253,1,0,0,0,225,226,3,54,27,0,226,227,5,43,0,0,227,228,3,52,
-  	26,0,228,253,1,0,0,0,229,230,3,54,27,0,230,231,5,42,0,0,231,232,3,52,
-  	26,0,232,253,1,0,0,0,233,234,3,54,27,0,234,235,5,45,0,0,235,236,3,52,
-  	26,0,236,253,1,0,0,0,237,238,3,54,27,0,238,239,5,44,0,0,239,240,3,52,
-  	26,0,240,253,1,0,0,0,241,242,3,54,27,0,242,243,5,46,0,0,243,244,3,52,
-  	26,0,244,253,1,0,0,0,245,246,3,54,27,0,246,247,5,47,0,0,247,248,3,52,
-  	26,0,248,253,1,0,0,0,249,250,5,48,0,0,250,253,3,52,26,0,251,253,3,54,
-  	27,0,252,201,1,0,0,0,252,205,1,0,0,0,252,209,1,0,0,0,252,213,1,0,0,0,
-  	252,217,1,0,0,0,252,221,1,0,0,0,252,225,1,0,0,0,252,229,1,0,0,0,252,233,
-  	1,0,0,0,252,237,1,0,0,0,252,241,1,0,0,0,252,245,1,0,0,0,252,249,1,0,0,
-  	0,252,251,1,0,0,0,253,53,1,0,0,0,254,263,5,27,0,0,255,256,5,26,0,0,256,
-  	263,3,58,29,0,257,263,3,34,17,0,258,259,5,32,0,0,259,260,3,52,26,0,260,
-  	261,5,33,0,0,261,263,1,0,0,0,262,254,1,0,0,0,262,255,1,0,0,0,262,257,
-  	1,0,0,0,262,258,1,0,0,0,263,55,1,0,0,0,264,269,3,52,26,0,265,266,5,29,
-  	0,0,266,268,3,52,26,0,267,265,1,0,0,0,268,271,1,0,0,0,269,267,1,0,0,0,
-  	269,270,1,0,0,0,270,273,1,0,0,0,271,269,1,0,0,0,272,264,1,0,0,0,272,273,
-  	1,0,0,0,273,57,1,0,0,0,274,275,5,34,0,0,275,276,3,52,26,0,276,277,5,35,
-  	0,0,277,280,1,0,0,0,278,280,1,0,0,0,279,274,1,0,0,0,279,278,1,0,0,0,280,
-  	59,1,0,0,0,15,75,88,111,116,123,126,131,142,151,172,252,262,269,272,279
+  	28,2,29,7,29,2,30,7,30,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,1,2,3,2,72,8,2,
+  	1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,3,4,85,8,4,1,5,1,5,1,5,1,
+  	5,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,7,1,7,1,8,1,8,1,8,1,8,1,8,1,8,1,8,
+  	3,8,108,8,8,1,9,1,9,1,9,3,9,113,8,9,1,10,1,10,1,10,5,10,118,8,10,10,10,
+  	12,10,121,9,10,3,10,123,8,10,1,11,1,11,1,11,3,11,128,8,11,1,12,1,12,1,
+  	12,1,12,1,13,1,13,1,13,1,14,1,14,3,14,139,8,14,1,15,1,15,1,15,1,15,1,
+  	15,1,15,1,15,3,15,148,8,15,1,16,1,16,1,16,1,16,1,16,1,16,1,17,1,17,1,
+  	17,1,17,1,17,1,18,1,18,1,18,1,18,1,18,1,19,1,19,1,19,1,19,1,20,1,20,1,
+  	20,1,20,1,20,3,20,175,8,20,1,21,1,21,1,21,1,21,1,22,1,22,1,22,1,22,1,
+  	23,1,23,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,24,1,25,1,25,1,
+  	26,1,26,1,26,1,26,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,
+  	27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,
+  	27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,
+  	27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,1,27,3,27,254,
+  	8,27,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,3,28,264,8,28,1,29,1,29,
+  	1,29,5,29,269,8,29,10,29,12,29,272,9,29,3,29,274,8,29,1,30,1,30,1,30,
+  	1,30,1,30,3,30,281,8,30,1,30,0,0,31,0,2,4,6,8,10,12,14,16,18,20,22,24,
+  	26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,0,0,283,0,62,1,
+  	0,0,0,2,64,1,0,0,0,4,71,1,0,0,0,6,73,1,0,0,0,8,84,1,0,0,0,10,86,1,0,0,
+  	0,12,90,1,0,0,0,14,98,1,0,0,0,16,107,1,0,0,0,18,112,1,0,0,0,20,122,1,
+  	0,0,0,22,127,1,0,0,0,24,129,1,0,0,0,26,133,1,0,0,0,28,138,1,0,0,0,30,
+  	147,1,0,0,0,32,149,1,0,0,0,34,155,1,0,0,0,36,160,1,0,0,0,38,165,1,0,0,
+  	0,40,174,1,0,0,0,42,176,1,0,0,0,44,180,1,0,0,0,46,184,1,0,0,0,48,186,
+  	1,0,0,0,50,196,1,0,0,0,52,198,1,0,0,0,54,253,1,0,0,0,56,263,1,0,0,0,58,
+  	273,1,0,0,0,60,280,1,0,0,0,62,63,3,2,1,0,63,1,1,0,0,0,64,65,3,4,2,0,65,
+  	66,3,8,4,0,66,3,1,0,0,0,67,72,1,0,0,0,68,69,3,6,3,0,69,70,3,4,2,0,70,
+  	72,1,0,0,0,71,67,1,0,0,0,71,68,1,0,0,0,72,5,1,0,0,0,73,74,5,17,0,0,74,
+  	75,5,28,0,0,75,76,5,16,0,0,76,77,3,16,8,0,77,78,3,18,9,0,78,79,5,33,0,
+  	0,79,7,1,0,0,0,80,85,1,0,0,0,81,82,3,10,5,0,82,83,3,8,4,0,83,85,1,0,0,
+  	0,84,80,1,0,0,0,84,81,1,0,0,0,85,9,1,0,0,0,86,87,3,12,6,0,87,88,3,26,
+  	13,0,88,89,3,14,7,0,89,11,1,0,0,0,90,91,5,10,0,0,91,92,5,28,0,0,92,93,
+  	5,34,0,0,93,94,3,20,10,0,94,95,5,35,0,0,95,96,3,22,11,0,96,97,5,38,0,
+  	0,97,13,1,0,0,0,98,99,5,39,0,0,99,15,1,0,0,0,100,108,5,24,0,0,101,102,
+  	5,4,0,0,102,103,5,36,0,0,103,104,5,29,0,0,104,105,5,37,0,0,105,106,5,
+  	13,0,0,106,108,5,24,0,0,107,100,1,0,0,0,107,101,1,0,0,0,108,17,1,0,0,
+  	0,109,113,1,0,0,0,110,111,5,26,0,0,111,113,5,29,0,0,112,109,1,0,0,0,112,
+  	110,1,0,0,0,113,19,1,0,0,0,114,119,3,24,12,0,115,116,5,31,0,0,116,118,
+  	3,24,12,0,117,115,1,0,0,0,118,121,1,0,0,0,119,117,1,0,0,0,119,120,1,0,
+  	0,0,120,123,1,0,0,0,121,119,1,0,0,0,122,114,1,0,0,0,122,123,1,0,0,0,123,
+  	21,1,0,0,0,124,128,1,0,0,0,125,126,5,16,0,0,126,128,3,16,8,0,127,124,
+  	1,0,0,0,127,125,1,0,0,0,128,23,1,0,0,0,129,130,5,28,0,0,130,131,5,16,
+  	0,0,131,132,3,16,8,0,132,25,1,0,0,0,133,134,3,30,15,0,134,135,3,28,14,
+  	0,135,27,1,0,0,0,136,139,1,0,0,0,137,139,3,26,13,0,138,136,1,0,0,0,138,
+  	137,1,0,0,0,139,29,1,0,0,0,140,148,3,32,16,0,141,142,3,34,17,0,142,143,
+  	5,33,0,0,143,148,1,0,0,0,144,148,3,38,19,0,145,148,3,48,24,0,146,148,
+  	3,52,26,0,147,140,1,0,0,0,147,141,1,0,0,0,147,144,1,0,0,0,147,145,1,0,
+  	0,0,147,146,1,0,0,0,148,31,1,0,0,0,149,150,5,28,0,0,150,151,3,60,30,0,
+  	151,152,5,27,0,0,152,153,3,54,27,0,153,154,5,33,0,0,154,33,1,0,0,0,155,
+  	156,5,28,0,0,156,157,5,34,0,0,157,158,3,58,29,0,158,159,5,35,0,0,159,
+  	35,1,0,0,0,160,161,5,28,0,0,161,162,5,34,0,0,162,163,3,58,29,0,163,164,
+  	5,35,0,0,164,37,1,0,0,0,165,166,3,42,21,0,166,167,3,26,13,0,167,168,3,
+  	40,20,0,168,39,1,0,0,0,169,175,3,46,23,0,170,171,5,39,0,0,171,172,3,44,
+  	22,0,172,173,3,46,23,0,173,175,1,0,0,0,174,169,1,0,0,0,174,170,1,0,0,
+  	0,175,41,1,0,0,0,176,177,5,7,0,0,177,178,3,54,27,0,178,179,5,38,0,0,179,
+  	43,1,0,0,0,180,181,5,8,0,0,181,182,5,38,0,0,182,183,3,26,13,0,183,45,
+  	1,0,0,0,184,185,5,39,0,0,185,47,1,0,0,0,186,187,5,9,0,0,187,188,5,28,
+  	0,0,188,189,5,27,0,0,189,190,3,54,27,0,190,191,5,15,0,0,191,192,3,54,
+  	27,0,192,193,5,38,0,0,193,194,3,26,13,0,194,195,3,50,25,0,195,49,1,0,
+  	0,0,196,197,5,39,0,0,197,51,1,0,0,0,198,199,5,23,0,0,199,200,3,54,27,
+  	0,200,201,5,33,0,0,201,53,1,0,0,0,202,203,3,56,28,0,203,204,5,42,0,0,
+  	204,205,3,54,27,0,205,254,1,0,0,0,206,207,3,56,28,0,207,208,5,43,0,0,
+  	208,209,3,54,27,0,209,254,1,0,0,0,210,211,3,56,28,0,211,212,5,40,0,0,
+  	212,213,3,54,27,0,213,254,1,0,0,0,214,215,3,56,28,0,215,216,5,41,0,0,
+  	216,217,3,54,27,0,217,254,1,0,0,0,218,219,3,56,28,0,219,220,5,44,0,0,
+  	220,221,3,54,27,0,221,254,1,0,0,0,222,223,3,56,28,0,223,224,5,45,0,0,
+  	224,225,3,54,27,0,225,254,1,0,0,0,226,227,3,56,28,0,227,228,5,47,0,0,
+  	228,229,3,54,27,0,229,254,1,0,0,0,230,231,3,56,28,0,231,232,5,46,0,0,
+  	232,233,3,54,27,0,233,254,1,0,0,0,234,235,3,56,28,0,235,236,5,49,0,0,
+  	236,237,3,54,27,0,237,254,1,0,0,0,238,239,3,56,28,0,239,240,5,48,0,0,
+  	240,241,3,54,27,0,241,254,1,0,0,0,242,243,3,56,28,0,243,244,5,50,0,0,
+  	244,245,3,54,27,0,245,254,1,0,0,0,246,247,3,56,28,0,247,248,5,51,0,0,
+  	248,249,3,54,27,0,249,254,1,0,0,0,250,251,5,52,0,0,251,254,3,54,27,0,
+  	252,254,3,56,28,0,253,202,1,0,0,0,253,206,1,0,0,0,253,210,1,0,0,0,253,
+  	214,1,0,0,0,253,218,1,0,0,0,253,222,1,0,0,0,253,226,1,0,0,0,253,230,1,
+  	0,0,0,253,234,1,0,0,0,253,238,1,0,0,0,253,242,1,0,0,0,253,246,1,0,0,0,
+  	253,250,1,0,0,0,253,252,1,0,0,0,254,55,1,0,0,0,255,264,5,29,0,0,256,257,
+  	5,28,0,0,257,264,3,60,30,0,258,264,3,36,18,0,259,260,5,34,0,0,260,261,
+  	3,54,27,0,261,262,5,35,0,0,262,264,1,0,0,0,263,255,1,0,0,0,263,256,1,
+  	0,0,0,263,258,1,0,0,0,263,259,1,0,0,0,264,57,1,0,0,0,265,270,3,54,27,
+  	0,266,267,5,31,0,0,267,269,3,54,27,0,268,266,1,0,0,0,269,272,1,0,0,0,
+  	270,268,1,0,0,0,270,271,1,0,0,0,271,274,1,0,0,0,272,270,1,0,0,0,273,265,
+  	1,0,0,0,273,274,1,0,0,0,274,59,1,0,0,0,275,276,5,36,0,0,276,277,3,54,
+  	27,0,277,278,5,37,0,0,278,281,1,0,0,0,279,281,1,0,0,0,280,275,1,0,0,0,
+  	280,279,1,0,0,0,281,61,1,0,0,0,15,71,84,107,112,119,122,127,138,147,174,
+  	253,263,270,273,280
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -213,32 +214,8 @@ grimoireParser::GrimoireContext::GrimoireContext(ParserRuleContext *parent, size
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* grimoireParser::GrimoireContext::MAIN() {
-  return getToken(grimoireParser::MAIN, 0);
-}
-
-tree::TerminalNode* grimoireParser::GrimoireContext::LET() {
-  return getToken(grimoireParser::LET, 0);
-}
-
 grimoireParser::DeclarationsegmentContext* grimoireParser::GrimoireContext::declarationsegment() {
   return getRuleContext<grimoireParser::DeclarationsegmentContext>(0);
-}
-
-tree::TerminalNode* grimoireParser::GrimoireContext::IN() {
-  return getToken(grimoireParser::IN, 0);
-}
-
-tree::TerminalNode* grimoireParser::GrimoireContext::BEGIN() {
-  return getToken(grimoireParser::BEGIN, 0);
-}
-
-grimoireParser::StatseqContext* grimoireParser::GrimoireContext::statseq() {
-  return getRuleContext<grimoireParser::StatseqContext>(0);
-}
-
-tree::TerminalNode* grimoireParser::GrimoireContext::END() {
-  return getToken(grimoireParser::END, 0);
 }
 
 
@@ -279,20 +256,8 @@ grimoireParser::GrimoireContext* grimoireParser::grimoire() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(60);
-    match(grimoireParser::MAIN);
-    setState(61);
-    match(grimoireParser::LET);
     setState(62);
     declarationsegment();
-    setState(63);
-    match(grimoireParser::IN);
-    setState(64);
-    match(grimoireParser::BEGIN);
-    setState(65);
-    statseq();
-    setState(66);
-    match(grimoireParser::END);
    
   }
   catch (RecognitionException &e) {
@@ -356,9 +321,9 @@ grimoireParser::DeclarationsegmentContext* grimoireParser::declarationsegment() 
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(68);
+    setState(64);
     vardeclarationlist();
-    setState(69);
+    setState(65);
     functdeclarationlist();
    
   }
@@ -422,21 +387,21 @@ grimoireParser::VardeclarationlistContext* grimoireParser::vardeclarationlist() 
     exitRule();
   });
   try {
-    setState(75);
+    setState(71);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case grimoireParser::FUNC:
-      case grimoireParser::IN: {
+      case grimoireParser::EOF:
+      case grimoireParser::FUNC: {
         enterOuterAlt(_localctx, 1);
 
         break;
       }
 
-      case grimoireParser::VAR: {
+      case grimoireParser::SUMMON: {
         enterOuterAlt(_localctx, 2);
-        setState(72);
+        setState(68);
         vardeclaration();
-        setState(73);
+        setState(69);
         vardeclarationlist();
         break;
       }
@@ -461,16 +426,16 @@ grimoireParser::VardeclarationContext::VardeclarationContext(ParserRuleContext *
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* grimoireParser::VardeclarationContext::VAR() {
-  return getToken(grimoireParser::VAR, 0);
+tree::TerminalNode* grimoireParser::VardeclarationContext::SUMMON() {
+  return getToken(grimoireParser::SUMMON, 0);
 }
 
 tree::TerminalNode* grimoireParser::VardeclarationContext::ID() {
   return getToken(grimoireParser::ID, 0);
 }
 
-tree::TerminalNode* grimoireParser::VardeclarationContext::COLON() {
-  return getToken(grimoireParser::COLON, 0);
+tree::TerminalNode* grimoireParser::VardeclarationContext::FROM() {
+  return getToken(grimoireParser::FROM, 0);
 }
 
 grimoireParser::TypeContext* grimoireParser::VardeclarationContext::type() {
@@ -523,17 +488,17 @@ grimoireParser::VardeclarationContext* grimoireParser::vardeclaration() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(77);
-    match(grimoireParser::VAR);
-    setState(78);
+    setState(73);
+    match(grimoireParser::SUMMON);
+    setState(74);
     match(grimoireParser::ID);
-    setState(79);
-    match(grimoireParser::COLON);
-    setState(80);
+    setState(75);
+    match(grimoireParser::FROM);
+    setState(76);
     type();
-    setState(81);
+    setState(77);
     optionalinit();
-    setState(82);
+    setState(78);
     match(grimoireParser::SEMICOLON);
    
   }
@@ -597,10 +562,10 @@ grimoireParser::FunctdeclarationlistContext* grimoireParser::functdeclarationlis
     exitRule();
   });
   try {
-    setState(88);
+    setState(84);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case grimoireParser::IN: {
+      case grimoireParser::EOF: {
         enterOuterAlt(_localctx, 1);
 
         break;
@@ -608,9 +573,9 @@ grimoireParser::FunctdeclarationlistContext* grimoireParser::functdeclarationlis
 
       case grimoireParser::FUNC: {
         enterOuterAlt(_localctx, 2);
-        setState(85);
+        setState(81);
         functdeclaration();
-        setState(86);
+        setState(82);
         functdeclarationlist();
         break;
       }
@@ -685,11 +650,11 @@ grimoireParser::FunctdeclarationContext* grimoireParser::functdeclaration() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(90);
+    setState(86);
     beginfunc();
-    setState(91);
+    setState(87);
     statseq();
-    setState(92);
+    setState(88);
     endfunc();
    
   }
@@ -732,8 +697,8 @@ grimoireParser::RettypeContext* grimoireParser::BeginfuncContext::rettype() {
   return getRuleContext<grimoireParser::RettypeContext>(0);
 }
 
-tree::TerminalNode* grimoireParser::BeginfuncContext::BEGIN() {
-  return getToken(grimoireParser::BEGIN, 0);
+tree::TerminalNode* grimoireParser::BeginfuncContext::OPENBLOCK() {
+  return getToken(grimoireParser::OPENBLOCK, 0);
 }
 
 
@@ -774,20 +739,20 @@ grimoireParser::BeginfuncContext* grimoireParser::beginfunc() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(94);
+    setState(90);
     match(grimoireParser::FUNC);
-    setState(95);
+    setState(91);
     match(grimoireParser::ID);
-    setState(96);
+    setState(92);
     match(grimoireParser::OPENBRACKET);
-    setState(97);
+    setState(93);
     paramlist();
-    setState(98);
+    setState(94);
     match(grimoireParser::CLOSEBRACKET);
-    setState(99);
+    setState(95);
     rettype();
-    setState(100);
-    match(grimoireParser::BEGIN);
+    setState(96);
+    match(grimoireParser::OPENBLOCK);
    
   }
   catch (RecognitionException &e) {
@@ -805,8 +770,8 @@ grimoireParser::EndfuncContext::EndfuncContext(ParserRuleContext *parent, size_t
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* grimoireParser::EndfuncContext::END() {
-  return getToken(grimoireParser::END, 0);
+tree::TerminalNode* grimoireParser::EndfuncContext::CLOSEBLOCK() {
+  return getToken(grimoireParser::CLOSEBLOCK, 0);
 }
 
 
@@ -847,8 +812,8 @@ grimoireParser::EndfuncContext* grimoireParser::endfunc() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(102);
-    match(grimoireParser::END);
+    setState(98);
+    match(grimoireParser::CLOSEBLOCK);
    
   }
   catch (RecognitionException &e) {
@@ -927,29 +892,29 @@ grimoireParser::TypeContext* grimoireParser::type() {
     exitRule();
   });
   try {
-    setState(111);
+    setState(107);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case grimoireParser::INT: {
         enterOuterAlt(_localctx, 1);
-        setState(104);
+        setState(100);
         match(grimoireParser::INT);
         break;
       }
 
       case grimoireParser::ARRAY: {
         enterOuterAlt(_localctx, 2);
-        setState(105);
+        setState(101);
         match(grimoireParser::ARRAY);
-        setState(106);
+        setState(102);
         match(grimoireParser::OPENSQBRACKET);
-        setState(107);
+        setState(103);
         match(grimoireParser::INTLIT);
-        setState(108);
+        setState(104);
         match(grimoireParser::CLOSESQBRACKET);
-        setState(109);
+        setState(105);
         match(grimoireParser::OF);
-        setState(110);
+        setState(106);
         match(grimoireParser::INT);
         break;
       }
@@ -974,8 +939,8 @@ grimoireParser::OptionalinitContext::OptionalinitContext(ParserRuleContext *pare
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* grimoireParser::OptionalinitContext::ASSIGNMENT() {
-  return getToken(grimoireParser::ASSIGNMENT, 0);
+tree::TerminalNode* grimoireParser::OptionalinitContext::EMBODIES() {
+  return getToken(grimoireParser::EMBODIES, 0);
 }
 
 tree::TerminalNode* grimoireParser::OptionalinitContext::INTLIT() {
@@ -1019,7 +984,7 @@ grimoireParser::OptionalinitContext* grimoireParser::optionalinit() {
     exitRule();
   });
   try {
-    setState(116);
+    setState(112);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case grimoireParser::SEMICOLON: {
@@ -1028,11 +993,11 @@ grimoireParser::OptionalinitContext* grimoireParser::optionalinit() {
         break;
       }
 
-      case grimoireParser::ASSIGNMENT: {
+      case grimoireParser::EMBODIES: {
         enterOuterAlt(_localctx, 2);
-        setState(114);
-        match(grimoireParser::ASSIGNMENT);
-        setState(115);
+        setState(110);
+        match(grimoireParser::EMBODIES);
+        setState(111);
         match(grimoireParser::INTLIT);
         break;
       }
@@ -1112,22 +1077,22 @@ grimoireParser::ParamlistContext* grimoireParser::paramlist() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(126);
+    setState(122);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == grimoireParser::ID) {
-      setState(118);
+      setState(114);
       param();
-      setState(123);
+      setState(119);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == grimoireParser::COMMA) {
-        setState(119);
+        setState(115);
         match(grimoireParser::COMMA);
-        setState(120);
+        setState(116);
         param();
-        setState(125);
+        setState(121);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
@@ -1149,8 +1114,8 @@ grimoireParser::RettypeContext::RettypeContext(ParserRuleContext *parent, size_t
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* grimoireParser::RettypeContext::COLON() {
-  return getToken(grimoireParser::COLON, 0);
+tree::TerminalNode* grimoireParser::RettypeContext::FROM() {
+  return getToken(grimoireParser::FROM, 0);
 }
 
 grimoireParser::TypeContext* grimoireParser::RettypeContext::type() {
@@ -1194,20 +1159,20 @@ grimoireParser::RettypeContext* grimoireParser::rettype() {
     exitRule();
   });
   try {
-    setState(131);
+    setState(127);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case grimoireParser::BEGIN: {
+      case grimoireParser::OPENBLOCK: {
         enterOuterAlt(_localctx, 1);
 
         break;
       }
 
-      case grimoireParser::COLON: {
+      case grimoireParser::FROM: {
         enterOuterAlt(_localctx, 2);
-        setState(129);
-        match(grimoireParser::COLON);
-        setState(130);
+        setState(125);
+        match(grimoireParser::FROM);
+        setState(126);
         type();
         break;
       }
@@ -1236,8 +1201,8 @@ tree::TerminalNode* grimoireParser::ParamContext::ID() {
   return getToken(grimoireParser::ID, 0);
 }
 
-tree::TerminalNode* grimoireParser::ParamContext::COLON() {
-  return getToken(grimoireParser::COLON, 0);
+tree::TerminalNode* grimoireParser::ParamContext::FROM() {
+  return getToken(grimoireParser::FROM, 0);
 }
 
 grimoireParser::TypeContext* grimoireParser::ParamContext::type() {
@@ -1282,11 +1247,11 @@ grimoireParser::ParamContext* grimoireParser::param() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(133);
+    setState(129);
     match(grimoireParser::ID);
-    setState(134);
-    match(grimoireParser::COLON);
-    setState(135);
+    setState(130);
+    match(grimoireParser::FROM);
+    setState(131);
     type();
    
   }
@@ -1351,9 +1316,9 @@ grimoireParser::StatseqContext* grimoireParser::statseq() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(137);
+    setState(133);
     stat();
-    setState(138);
+    setState(134);
     stattail();
    
   }
@@ -1413,13 +1378,10 @@ grimoireParser::StattailContext* grimoireParser::stattail() {
     exitRule();
   });
   try {
-    setState(142);
+    setState(138);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case grimoireParser::ELSE:
-      case grimoireParser::ENDIF:
-      case grimoireParser::END:
-      case grimoireParser::ENDDO: {
+      case grimoireParser::CLOSEBLOCK: {
         enterOuterAlt(_localctx, 1);
 
         break;
@@ -1430,7 +1392,7 @@ grimoireParser::StattailContext* grimoireParser::stattail() {
       case grimoireParser::RET:
       case grimoireParser::ID: {
         enterOuterAlt(_localctx, 2);
-        setState(141);
+        setState(137);
         statseq();
         break;
       }
@@ -1516,42 +1478,42 @@ grimoireParser::StatContext* grimoireParser::stat() {
     exitRule();
   });
   try {
-    setState(151);
+    setState(147);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 8, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(144);
+      setState(140);
       assignstat();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(145);
+      setState(141);
       funccall();
-      setState(146);
+      setState(142);
       match(grimoireParser::SEMICOLON);
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(148);
+      setState(144);
       condstat();
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(149);
+      setState(145);
       forstat();
       break;
     }
 
     case 5: {
       enterOuterAlt(_localctx, 5);
-      setState(150);
+      setState(146);
       retstat();
       break;
     }
@@ -1634,15 +1596,15 @@ grimoireParser::AssignstatContext* grimoireParser::assignstat() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(153);
+    setState(149);
     match(grimoireParser::ID);
-    setState(154);
+    setState(150);
     lvaluetail();
-    setState(155);
+    setState(151);
     match(grimoireParser::ASSIGNMENT);
-    setState(156);
+    setState(152);
     expr();
-    setState(157);
+    setState(153);
     match(grimoireParser::SEMICOLON);
    
   }
@@ -1715,13 +1677,92 @@ grimoireParser::FunccallContext* grimoireParser::funccall() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(159);
+    setState(155);
     match(grimoireParser::ID);
-    setState(160);
+    setState(156);
     match(grimoireParser::OPENBRACKET);
-    setState(161);
+    setState(157);
     exprlist();
+    setState(158);
+    match(grimoireParser::CLOSEBRACKET);
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- FuncexprContext ------------------------------------------------------------------
+
+grimoireParser::FuncexprContext::FuncexprContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* grimoireParser::FuncexprContext::ID() {
+  return getToken(grimoireParser::ID, 0);
+}
+
+tree::TerminalNode* grimoireParser::FuncexprContext::OPENBRACKET() {
+  return getToken(grimoireParser::OPENBRACKET, 0);
+}
+
+grimoireParser::ExprlistContext* grimoireParser::FuncexprContext::exprlist() {
+  return getRuleContext<grimoireParser::ExprlistContext>(0);
+}
+
+tree::TerminalNode* grimoireParser::FuncexprContext::CLOSEBRACKET() {
+  return getToken(grimoireParser::CLOSEBRACKET, 0);
+}
+
+
+size_t grimoireParser::FuncexprContext::getRuleIndex() const {
+  return grimoireParser::RuleFuncexpr;
+}
+
+void grimoireParser::FuncexprContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<grimoireListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterFuncexpr(this);
+}
+
+void grimoireParser::FuncexprContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<grimoireListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitFuncexpr(this);
+}
+
+
+std::any grimoireParser::FuncexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<grimoireVisitor*>(visitor))
+    return parserVisitor->visitFuncexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+grimoireParser::FuncexprContext* grimoireParser::funcexpr() {
+  FuncexprContext *_localctx = _tracker.createInstance<FuncexprContext>(_ctx, getState());
+  enterRule(_localctx, 36, grimoireParser::RuleFuncexpr);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(160);
+    match(grimoireParser::ID);
+    setState(161);
+    match(grimoireParser::OPENBRACKET);
     setState(162);
+    exprlist();
+    setState(163);
     match(grimoireParser::CLOSEBRACKET);
    
   }
@@ -1779,7 +1820,7 @@ std::any grimoireParser::CondstatContext::accept(tree::ParseTreeVisitor *visitor
 
 grimoireParser::CondstatContext* grimoireParser::condstat() {
   CondstatContext *_localctx = _tracker.createInstance<CondstatContext>(_ctx, getState());
-  enterRule(_localctx, 36, grimoireParser::RuleCondstat);
+  enterRule(_localctx, 38, grimoireParser::RuleCondstat);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1790,11 +1831,11 @@ grimoireParser::CondstatContext* grimoireParser::condstat() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(164);
-    ifcond();
     setState(165);
-    statseq();
+    ifcond();
     setState(166);
+    statseq();
+    setState(167);
     condstattail();
    
   }
@@ -1815,6 +1856,10 @@ grimoireParser::CondstattailContext::CondstattailContext(ParserRuleContext *pare
 
 grimoireParser::EndcondstatContext* grimoireParser::CondstattailContext::endcondstat() {
   return getRuleContext<grimoireParser::EndcondstatContext>(0);
+}
+
+tree::TerminalNode* grimoireParser::CondstattailContext::CLOSEBLOCK() {
+  return getToken(grimoireParser::CLOSEBLOCK, 0);
 }
 
 grimoireParser::ElsecondContext* grimoireParser::CondstattailContext::elsecond() {
@@ -1848,7 +1893,7 @@ std::any grimoireParser::CondstattailContext::accept(tree::ParseTreeVisitor *vis
 
 grimoireParser::CondstattailContext* grimoireParser::condstattail() {
   CondstattailContext *_localctx = _tracker.createInstance<CondstattailContext>(_ctx, getState());
-  enterRule(_localctx, 38, grimoireParser::RuleCondstattail);
+  enterRule(_localctx, 40, grimoireParser::RuleCondstattail);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1858,27 +1903,29 @@ grimoireParser::CondstattailContext* grimoireParser::condstattail() {
     exitRule();
   });
   try {
-    setState(172);
+    setState(174);
     _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case grimoireParser::ENDIF: {
-        enterOuterAlt(_localctx, 1);
-        setState(168);
-        endcondstat();
-        break;
-      }
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 9, _ctx)) {
+    case 1: {
+      enterOuterAlt(_localctx, 1);
+      setState(169);
+      endcondstat();
+      break;
+    }
 
-      case grimoireParser::ELSE: {
-        enterOuterAlt(_localctx, 2);
-        setState(169);
-        elsecond();
-        setState(170);
-        endcondstat();
-        break;
-      }
+    case 2: {
+      enterOuterAlt(_localctx, 2);
+      setState(170);
+      match(grimoireParser::CLOSEBLOCK);
+      setState(171);
+      elsecond();
+      setState(172);
+      endcondstat();
+      break;
+    }
 
     default:
-      throw NoViableAltException(this);
+      break;
     }
    
   }
@@ -1905,8 +1952,8 @@ grimoireParser::ExprContext* grimoireParser::IfcondContext::expr() {
   return getRuleContext<grimoireParser::ExprContext>(0);
 }
 
-tree::TerminalNode* grimoireParser::IfcondContext::THEN() {
-  return getToken(grimoireParser::THEN, 0);
+tree::TerminalNode* grimoireParser::IfcondContext::OPENBLOCK() {
+  return getToken(grimoireParser::OPENBLOCK, 0);
 }
 
 
@@ -1936,7 +1983,7 @@ std::any grimoireParser::IfcondContext::accept(tree::ParseTreeVisitor *visitor) 
 
 grimoireParser::IfcondContext* grimoireParser::ifcond() {
   IfcondContext *_localctx = _tracker.createInstance<IfcondContext>(_ctx, getState());
-  enterRule(_localctx, 40, grimoireParser::RuleIfcond);
+  enterRule(_localctx, 42, grimoireParser::RuleIfcond);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1947,12 +1994,12 @@ grimoireParser::IfcondContext* grimoireParser::ifcond() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(174);
-    match(grimoireParser::IF);
-    setState(175);
-    expr();
     setState(176);
-    match(grimoireParser::THEN);
+    match(grimoireParser::IF);
+    setState(177);
+    expr();
+    setState(178);
+    match(grimoireParser::OPENBLOCK);
    
   }
   catch (RecognitionException &e) {
@@ -1972,6 +2019,10 @@ grimoireParser::ElsecondContext::ElsecondContext(ParserRuleContext *parent, size
 
 tree::TerminalNode* grimoireParser::ElsecondContext::ELSE() {
   return getToken(grimoireParser::ELSE, 0);
+}
+
+tree::TerminalNode* grimoireParser::ElsecondContext::OPENBLOCK() {
+  return getToken(grimoireParser::OPENBLOCK, 0);
 }
 
 grimoireParser::StatseqContext* grimoireParser::ElsecondContext::statseq() {
@@ -2005,7 +2056,7 @@ std::any grimoireParser::ElsecondContext::accept(tree::ParseTreeVisitor *visitor
 
 grimoireParser::ElsecondContext* grimoireParser::elsecond() {
   ElsecondContext *_localctx = _tracker.createInstance<ElsecondContext>(_ctx, getState());
-  enterRule(_localctx, 42, grimoireParser::RuleElsecond);
+  enterRule(_localctx, 44, grimoireParser::RuleElsecond);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2016,9 +2067,11 @@ grimoireParser::ElsecondContext* grimoireParser::elsecond() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(178);
+    setState(180);
     match(grimoireParser::ELSE);
-    setState(179);
+    setState(181);
+    match(grimoireParser::OPENBLOCK);
+    setState(182);
     statseq();
    
   }
@@ -2037,12 +2090,8 @@ grimoireParser::EndcondstatContext::EndcondstatContext(ParserRuleContext *parent
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* grimoireParser::EndcondstatContext::ENDIF() {
-  return getToken(grimoireParser::ENDIF, 0);
-}
-
-tree::TerminalNode* grimoireParser::EndcondstatContext::SEMICOLON() {
-  return getToken(grimoireParser::SEMICOLON, 0);
+tree::TerminalNode* grimoireParser::EndcondstatContext::CLOSEBLOCK() {
+  return getToken(grimoireParser::CLOSEBLOCK, 0);
 }
 
 
@@ -2072,7 +2121,7 @@ std::any grimoireParser::EndcondstatContext::accept(tree::ParseTreeVisitor *visi
 
 grimoireParser::EndcondstatContext* grimoireParser::endcondstat() {
   EndcondstatContext *_localctx = _tracker.createInstance<EndcondstatContext>(_ctx, getState());
-  enterRule(_localctx, 44, grimoireParser::RuleEndcondstat);
+  enterRule(_localctx, 46, grimoireParser::RuleEndcondstat);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2083,10 +2132,8 @@ grimoireParser::EndcondstatContext* grimoireParser::endcondstat() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(181);
-    match(grimoireParser::ENDIF);
-    setState(182);
-    match(grimoireParser::SEMICOLON);
+    setState(184);
+    match(grimoireParser::CLOSEBLOCK);
    
   }
   catch (RecognitionException &e) {
@@ -2128,8 +2175,8 @@ tree::TerminalNode* grimoireParser::ForstatContext::TO() {
   return getToken(grimoireParser::TO, 0);
 }
 
-tree::TerminalNode* grimoireParser::ForstatContext::DO() {
-  return getToken(grimoireParser::DO, 0);
+tree::TerminalNode* grimoireParser::ForstatContext::OPENBLOCK() {
+  return getToken(grimoireParser::OPENBLOCK, 0);
 }
 
 grimoireParser::StatseqContext* grimoireParser::ForstatContext::statseq() {
@@ -2167,7 +2214,7 @@ std::any grimoireParser::ForstatContext::accept(tree::ParseTreeVisitor *visitor)
 
 grimoireParser::ForstatContext* grimoireParser::forstat() {
   ForstatContext *_localctx = _tracker.createInstance<ForstatContext>(_ctx, getState());
-  enterRule(_localctx, 46, grimoireParser::RuleForstat);
+  enterRule(_localctx, 48, grimoireParser::RuleForstat);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2178,23 +2225,23 @@ grimoireParser::ForstatContext* grimoireParser::forstat() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(184);
-    match(grimoireParser::FOR);
-    setState(185);
-    match(grimoireParser::ID);
     setState(186);
-    match(grimoireParser::ASSIGNMENT);
+    match(grimoireParser::FOR);
     setState(187);
-    expr();
+    match(grimoireParser::ID);
     setState(188);
-    match(grimoireParser::TO);
+    match(grimoireParser::ASSIGNMENT);
     setState(189);
     expr();
     setState(190);
-    match(grimoireParser::DO);
+    match(grimoireParser::TO);
     setState(191);
-    statseq();
+    expr();
     setState(192);
+    match(grimoireParser::OPENBLOCK);
+    setState(193);
+    statseq();
+    setState(194);
     endfor();
    
   }
@@ -2213,12 +2260,8 @@ grimoireParser::EndforContext::EndforContext(ParserRuleContext *parent, size_t i
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* grimoireParser::EndforContext::ENDDO() {
-  return getToken(grimoireParser::ENDDO, 0);
-}
-
-tree::TerminalNode* grimoireParser::EndforContext::SEMICOLON() {
-  return getToken(grimoireParser::SEMICOLON, 0);
+tree::TerminalNode* grimoireParser::EndforContext::CLOSEBLOCK() {
+  return getToken(grimoireParser::CLOSEBLOCK, 0);
 }
 
 
@@ -2248,7 +2291,7 @@ std::any grimoireParser::EndforContext::accept(tree::ParseTreeVisitor *visitor) 
 
 grimoireParser::EndforContext* grimoireParser::endfor() {
   EndforContext *_localctx = _tracker.createInstance<EndforContext>(_ctx, getState());
-  enterRule(_localctx, 48, grimoireParser::RuleEndfor);
+  enterRule(_localctx, 50, grimoireParser::RuleEndfor);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2259,10 +2302,8 @@ grimoireParser::EndforContext* grimoireParser::endfor() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(194);
-    match(grimoireParser::ENDDO);
-    setState(195);
-    match(grimoireParser::SEMICOLON);
+    setState(196);
+    match(grimoireParser::CLOSEBLOCK);
    
   }
   catch (RecognitionException &e) {
@@ -2319,7 +2360,7 @@ std::any grimoireParser::RetstatContext::accept(tree::ParseTreeVisitor *visitor)
 
 grimoireParser::RetstatContext* grimoireParser::retstat() {
   RetstatContext *_localctx = _tracker.createInstance<RetstatContext>(_ctx, getState());
-  enterRule(_localctx, 50, grimoireParser::RuleRetstat);
+  enterRule(_localctx, 52, grimoireParser::RuleRetstat);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2330,11 +2371,11 @@ grimoireParser::RetstatContext* grimoireParser::retstat() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(197);
-    match(grimoireParser::RET);
     setState(198);
-    expr();
+    match(grimoireParser::RET);
     setState(199);
+    expr();
+    setState(200);
     match(grimoireParser::SEMICOLON);
    
   }
@@ -2440,7 +2481,7 @@ std::any grimoireParser::ExprContext::accept(tree::ParseTreeVisitor *visitor) {
 
 grimoireParser::ExprContext* grimoireParser::expr() {
   ExprContext *_localctx = _tracker.createInstance<ExprContext>(_ctx, getState());
-  enterRule(_localctx, 52, grimoireParser::RuleExpr);
+  enterRule(_localctx, 54, grimoireParser::RuleExpr);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2450,153 +2491,153 @@ grimoireParser::ExprContext* grimoireParser::expr() {
     exitRule();
   });
   try {
-    setState(252);
+    setState(253);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 10, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(201);
-      term();
       setState(202);
-      match(grimoireParser::MULT);
+      term();
       setState(203);
+      match(grimoireParser::MULT);
+      setState(204);
       expr();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(205);
-      term();
       setState(206);
-      match(grimoireParser::DIV);
+      term();
       setState(207);
+      match(grimoireParser::DIV);
+      setState(208);
       expr();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(209);
-      term();
       setState(210);
-      match(grimoireParser::ADD);
+      term();
       setState(211);
+      match(grimoireParser::ADD);
+      setState(212);
       expr();
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(213);
-      term();
       setState(214);
-      match(grimoireParser::SUB);
+      term();
       setState(215);
+      match(grimoireParser::SUB);
+      setState(216);
       expr();
       break;
     }
 
     case 5: {
       enterOuterAlt(_localctx, 5);
-      setState(217);
-      term();
       setState(218);
-      match(grimoireParser::EQUAL);
+      term();
       setState(219);
+      match(grimoireParser::EQUAL);
+      setState(220);
       expr();
       break;
     }
 
     case 6: {
       enterOuterAlt(_localctx, 6);
-      setState(221);
-      term();
       setState(222);
-      match(grimoireParser::NOTEQUAL);
+      term();
       setState(223);
+      match(grimoireParser::NOTEQUAL);
+      setState(224);
       expr();
       break;
     }
 
     case 7: {
       enterOuterAlt(_localctx, 7);
-      setState(225);
-      term();
       setState(226);
-      match(grimoireParser::GREAT);
+      term();
       setState(227);
+      match(grimoireParser::GREAT);
+      setState(228);
       expr();
       break;
     }
 
     case 8: {
       enterOuterAlt(_localctx, 8);
-      setState(229);
-      term();
       setState(230);
-      match(grimoireParser::LESS);
+      term();
       setState(231);
+      match(grimoireParser::LESS);
+      setState(232);
       expr();
       break;
     }
 
     case 9: {
       enterOuterAlt(_localctx, 9);
-      setState(233);
-      term();
       setState(234);
-      match(grimoireParser::GREATEQUAL);
+      term();
       setState(235);
+      match(grimoireParser::GREATEQUAL);
+      setState(236);
       expr();
       break;
     }
 
     case 10: {
       enterOuterAlt(_localctx, 10);
-      setState(237);
-      term();
       setState(238);
-      match(grimoireParser::LESSEQUAL);
+      term();
       setState(239);
+      match(grimoireParser::LESSEQUAL);
+      setState(240);
       expr();
       break;
     }
 
     case 11: {
       enterOuterAlt(_localctx, 11);
-      setState(241);
-      term();
       setState(242);
-      match(grimoireParser::AND);
+      term();
       setState(243);
+      match(grimoireParser::AND);
+      setState(244);
       expr();
       break;
     }
 
     case 12: {
       enterOuterAlt(_localctx, 12);
-      setState(245);
-      term();
       setState(246);
-      match(grimoireParser::OR);
+      term();
       setState(247);
+      match(grimoireParser::OR);
+      setState(248);
       expr();
       break;
     }
 
     case 13: {
       enterOuterAlt(_localctx, 13);
-      setState(249);
-      match(grimoireParser::NOT);
       setState(250);
+      match(grimoireParser::NOT);
+      setState(251);
       expr();
       break;
     }
 
     case 14: {
       enterOuterAlt(_localctx, 14);
-      setState(251);
+      setState(252);
       term();
       break;
     }
@@ -2633,8 +2674,8 @@ grimoireParser::LvaluetailContext* grimoireParser::TermContext::lvaluetail() {
   return getRuleContext<grimoireParser::LvaluetailContext>(0);
 }
 
-grimoireParser::FunccallContext* grimoireParser::TermContext::funccall() {
-  return getRuleContext<grimoireParser::FunccallContext>(0);
+grimoireParser::FuncexprContext* grimoireParser::TermContext::funcexpr() {
+  return getRuleContext<grimoireParser::FuncexprContext>(0);
 }
 
 tree::TerminalNode* grimoireParser::TermContext::OPENBRACKET() {
@@ -2676,7 +2717,7 @@ std::any grimoireParser::TermContext::accept(tree::ParseTreeVisitor *visitor) {
 
 grimoireParser::TermContext* grimoireParser::term() {
   TermContext *_localctx = _tracker.createInstance<TermContext>(_ctx, getState());
-  enterRule(_localctx, 54, grimoireParser::RuleTerm);
+  enterRule(_localctx, 56, grimoireParser::RuleTerm);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2686,39 +2727,39 @@ grimoireParser::TermContext* grimoireParser::term() {
     exitRule();
   });
   try {
-    setState(262);
+    setState(263);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(254);
+      setState(255);
       match(grimoireParser::INTLIT);
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(255);
-      match(grimoireParser::ID);
       setState(256);
+      match(grimoireParser::ID);
+      setState(257);
       lvaluetail();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(257);
-      funccall();
+      setState(258);
+      funcexpr();
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(258);
-      match(grimoireParser::OPENBRACKET);
       setState(259);
-      expr();
+      match(grimoireParser::OPENBRACKET);
       setState(260);
+      expr();
+      setState(261);
       match(grimoireParser::CLOSEBRACKET);
       break;
     }
@@ -2786,7 +2827,7 @@ std::any grimoireParser::ExprlistContext::accept(tree::ParseTreeVisitor *visitor
 
 grimoireParser::ExprlistContext* grimoireParser::exprlist() {
   ExprlistContext *_localctx = _tracker.createInstance<ExprlistContext>(_ctx, getState());
-  enterRule(_localctx, 56, grimoireParser::RuleExprlist);
+  enterRule(_localctx, 58, grimoireParser::RuleExprlist);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -2798,7 +2839,7 @@ grimoireParser::ExprlistContext* grimoireParser::exprlist() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(272);
+    setState(273);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
@@ -2807,17 +2848,17 @@ grimoireParser::ExprlistContext* grimoireParser::exprlist() {
       | (1ULL << grimoireParser::INTLIT)
       | (1ULL << grimoireParser::OPENBRACKET)
       | (1ULL << grimoireParser::NOT))) != 0)) {
-      setState(264);
+      setState(265);
       expr();
-      setState(269);
+      setState(270);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == grimoireParser::COMMA) {
-        setState(265);
-        match(grimoireParser::COMMA);
         setState(266);
+        match(grimoireParser::COMMA);
+        setState(267);
         expr();
-        setState(271);
+        setState(272);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
@@ -2878,7 +2919,7 @@ std::any grimoireParser::LvaluetailContext::accept(tree::ParseTreeVisitor *visit
 
 grimoireParser::LvaluetailContext* grimoireParser::lvaluetail() {
   LvaluetailContext *_localctx = _tracker.createInstance<LvaluetailContext>(_ctx, getState());
-  enterRule(_localctx, 58, grimoireParser::RuleLvaluetail);
+  enterRule(_localctx, 60, grimoireParser::RuleLvaluetail);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2888,27 +2929,27 @@ grimoireParser::LvaluetailContext* grimoireParser::lvaluetail() {
     exitRule();
   });
   try {
-    setState(279);
+    setState(280);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case grimoireParser::OPENSQBRACKET: {
         enterOuterAlt(_localctx, 1);
-        setState(274);
-        match(grimoireParser::OPENSQBRACKET);
         setState(275);
-        expr();
+        match(grimoireParser::OPENSQBRACKET);
         setState(276);
+        expr();
+        setState(277);
         match(grimoireParser::CLOSESQBRACKET);
         break;
       }
 
-      case grimoireParser::DO:
-      case grimoireParser::THEN:
       case grimoireParser::TO:
+      case grimoireParser::ASSIGNMENT:
       case grimoireParser::COMMA:
       case grimoireParser::SEMICOLON:
       case grimoireParser::CLOSEBRACKET:
       case grimoireParser::CLOSESQBRACKET:
+      case grimoireParser::OPENBLOCK:
       case grimoireParser::ADD:
       case grimoireParser::SUB:
       case grimoireParser::MULT:
@@ -2920,8 +2961,7 @@ grimoireParser::LvaluetailContext* grimoireParser::lvaluetail() {
       case grimoireParser::LESSEQUAL:
       case grimoireParser::GREATEQUAL:
       case grimoireParser::AND:
-      case grimoireParser::OR:
-      case grimoireParser::ASSIGNMENT: {
+      case grimoireParser::OR: {
         enterOuterAlt(_localctx, 2);
 
         break;

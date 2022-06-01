@@ -42,6 +42,16 @@ public:
     void dump() { 
 
         std::cout << std::endl << "PARSED AST HEAD HAS " << std::endl << compiler->ast->getNodes().size() << " Children" << std::endl;
+        for (auto node : compiler->ast->getNodes())
+        {
+            std::cout << node->toString() << std::endl;
+            for (auto child : node->getNodes())
+            {
+                std::cout << child->toString() << std::endl;
+            }
+               
+        }
+        
 
     }
 

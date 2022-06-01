@@ -56,6 +56,8 @@ public:
 
     virtual std::any visitFunccall(grimoireParser::FunccallContext *context) = 0;
 
+    virtual std::any visitFuncexpr(grimoireParser::FuncexprContext *context) = 0;
+
     virtual std::any visitCondstat(grimoireParser::CondstatContext *context) = 0;
 
     virtual std::any visitCondstattail(grimoireParser::CondstattailContext *context) = 0;

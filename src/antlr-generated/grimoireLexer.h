@@ -13,14 +13,15 @@ namespace antlrcppgrim {
 class  grimoireLexer : public antlr4::Lexer {
 public:
   enum {
-    WHITESPACE = 1, NEWLINE = 2, COMMENT = 3, MAIN = 4, ARRAY = 5, BREAK = 6, 
-    DO = 7, IF = 8, ELSE = 9, FOR = 10, FUNC = 11, LET = 12, IN = 13, OF = 14, 
-    THEN = 15, TO = 16, VAR = 17, WHILE = 18, ENDIF = 19, BEGIN = 20, END = 21, 
-    ENDDO = 22, RET = 23, INT = 24, FLOAT = 25, ID = 26, INTLIT = 27, FLOATLIT = 28, 
-    COMMA = 29, COLON = 30, SEMICOLON = 31, OPENBRACKET = 32, CLOSEBRACKET = 33, 
-    OPENSQBRACKET = 34, CLOSESQBRACKET = 35, ADD = 36, SUB = 37, MULT = 38, 
-    DIV = 39, EQUAL = 40, NOTEQUAL = 41, LESS = 42, GREAT = 43, LESSEQUAL = 44, 
-    GREATEQUAL = 45, AND = 46, OR = 47, NOT = 48, ASSIGNMENT = 49
+    WHITESPACE = 1, NEWLINE = 2, COMMENT = 3, ARRAY = 4, BREAK = 5, DO = 6, 
+    IF = 7, ELSE = 8, FOR = 9, FUNC = 10, LET = 11, IN = 12, OF = 13, THEN = 14, 
+    TO = 15, FROM = 16, SUMMON = 17, WHILE = 18, ENDIF = 19, BEGIN = 20, 
+    END = 21, ENDDO = 22, RET = 23, INT = 24, FLOAT = 25, EMBODIES = 26, 
+    ASSIGNMENT = 27, ID = 28, INTLIT = 29, FLOATLIT = 30, COMMA = 31, COLON = 32, 
+    SEMICOLON = 33, OPENBRACKET = 34, CLOSEBRACKET = 35, OPENSQBRACKET = 36, 
+    CLOSESQBRACKET = 37, OPENBLOCK = 38, CLOSEBLOCK = 39, ADD = 40, SUB = 41, 
+    MULT = 42, DIV = 43, EQUAL = 44, NOTEQUAL = 45, LESS = 46, GREAT = 47, 
+    LESSEQUAL = 48, GREATEQUAL = 49, AND = 50, OR = 51, NOT = 52
   };
 
   explicit grimoireLexer(antlr4::CharStream *input);
