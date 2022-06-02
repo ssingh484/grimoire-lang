@@ -341,7 +341,7 @@ public:
     ArrayIdentifier(int line, std::shared_ptr<Identifier> var, std::shared_ptr<Expression> index, const Token &token) : Expression(line, token), _var(var), _index(index) {}
 
     static std::shared_ptr<ArrayIdentifier> create(std::shared_ptr<Identifier> var, std::shared_ptr<Expression> index, int line = 0) {
-        Token token(Token::ARR, var->getValue()+"["+index->getValue()+"]");
+        Token token(Token::ARR, var->getValue());
         return std::make_shared<ArrayIdentifier>(line, var, index, token);
     }
     llvm::Value *accept(Generator *v, void *param = nullptr) override { return v->visit(this,param); }

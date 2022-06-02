@@ -1,4 +1,7 @@
-int x[5];
-void aa() {
-	x[4] = x[2];
+int x = 2;
+void aa(int x) {
+	x = 20 + x;
+}
+void bb() {
+	aa(x);
 }

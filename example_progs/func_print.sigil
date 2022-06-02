@@ -8,7 +8,13 @@ summon y from int embodies 89;
 summon u from int embodies 85;
 summon arr_test from array [10] of int embodies 85;
 
-spell genesis ( ) from int {
+spell wakanda(a from int) from array[10] of int {
+	putchar(a);
+	return arr_test;
+}
+
+spell genesis ( ) {
+wakanda(i);
 putchar(i);
 putchar(space);
 putchar(l);
@@ -19,5 +25,4 @@ putchar(space);
 putchar(y);
 putchar(o);
 putchar(u);
-return 0;
 }

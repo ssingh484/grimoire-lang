@@ -159,6 +159,23 @@ antlrcpp::Any grimoireDeclarationVisitor::visitFunctdeclaration(antlrcppgrim::gr
     std::shared_ptr<Symbol> symbol = parseSubroutine(ctx);
     if (symbol) {
         this->compiler->symbolTable->add(symbol);
+        for (auto param_ctx : ctx->beginfunc()->paramlist()->param())
+        {
+            /* Creates the symbol and the specifier */
+            std::shared_ptr<Symbol> param_var = std::make_shared<Symbol>(param_ctx->ID()->getText(), ctx->getStart()->getLine());
+            std::shared_ptr<SymbolSpecifier> param_specifier = std::make_shared<SymbolSpecifier>("I");
+
+            /* array */
+            if (param_ctx->type()->ARRAY())
+            {
+                int arraySize = stoi(param_ctx->type()->INTLIT()->getText());
+                std::shared_ptr<ArrayDeclarator> param_declarator = std::make_shared<ArrayDeclarator>(arraySize);
+                param_var->addDeclarator(param_declarator);
+            }
+            param_var->addSpecifier(param_specifier);
+
+            this->compiler->symbolTable->add(param_var);
+        }
     }
     return grimoireBaseVisitor::visitFunctdeclaration(ctx);
 }
