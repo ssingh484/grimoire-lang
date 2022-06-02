@@ -95,7 +95,7 @@ void  GeneratorLLVM::process(std::shared_ptr<SymbolTable> symbolTable,std::share
  */
 void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable) {
     /* Emit the format string for the printf */
-    std::string str = "%lld\n";
+    std::string str = "%d\n";
     auto charType = llvm::IntegerType::get(llvmContext, 8);
 
     /*  Initialize the  vector */
@@ -119,8 +119,8 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
     std::vector<llvm::Type*> putchar_params;
     putchar_params.push_back(llvm::Type::getInt8Ty(llvmContext));
     /* External function declaration */
-    llvm::FunctionType *pft = llvm::FunctionType::get(llvm::Type::getInt8Ty(llvmContext),putchar_params, false);
-    llvm::Function *printf_func = llvm::Function::Create(pft, llvm::Function::ExternalLinkage, "putchar", this->module.get());
+    llvm::FunctionType *putchar_type = llvm::FunctionType::get(llvm::Type::getInt8Ty(llvmContext),putchar_params, false);
+    llvm::Function *putchar_func = llvm::Function::Create(putchar_type, llvm::Function::ExternalLinkage, "putchar", this->module.get());
 
     // std::vector<llvm::Type*> display_params;
     // display_params.push_back(llvm::Type::getInt8Ty(llvmContext));
@@ -641,12 +641,17 @@ llvm::Value* GeneratorLLVM::visit(ConditionalClause *cond,void *param) {
 
         // Emits the true block
         builder->SetInsertPoint(trueBlock);
+        llvm::Value *xx;
         for (auto stmt = cond->getWhen().at(i)->getNodes().begin();
             stmt != cond->getWhen().at(i)->getNodes().end(); ++stmt) {
-            llvm::Value *xx = stmt->get()->accept( this );
+            xx = stmt->get()->accept( this );
             //std::cout << xx << std::endl;
         }
-        builder->CreateBr(mergeBlock);
+        if (! trueBlock->getTerminator())
+        {
+            builder->CreateBr(mergeBlock);
+        }
+        // builder->CreateBr(mergeBlock);
 
         // Emits the false block
         parentBlock->getBasicBlockList().push_back(falseBlock);
@@ -661,10 +666,14 @@ llvm::Value* GeneratorLLVM::visit(ConditionalClause *cond,void *param) {
         // parentBlock->getBasicBlockList().push_back(elseBlock);
         // Already pushed at end of parentBlock by the last if condition processed in loop above
         builder->SetInsertPoint(elseBlock);
+        llvm::Value *xx;
         for (auto stmt = cond->getElse()->getNodes().begin(); stmt != cond->getElse()->getNodes().end(); ++stmt) {
-            llvm::Value *xx = stmt->get()->accept(this,param);
+            xx = stmt->get()->accept(this,param);
         }
-        builder->CreateBr(mergeBlock);
+        if (! elseBlock->getTerminator())
+        {
+            builder->CreateBr(mergeBlock);
+        }
     }
 
     /* Emits the exit block */

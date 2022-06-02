@@ -1,0 +1,20 @@
+summon t1 from int;
+summon t2 from int;
+summon x from int;
+
+spell fib(n from int) from int {
+        if (n <= 1) {
+		return n;
+	} else {
+		t1 becomes fib(n - 1);
+		t2 becomes fib(n - 2);
+        	return (t1 + t2);
+	}
+	return 0;
+}
+
+spell genesis () {
+	x becomes 10;
+	x becomes fib(x);
+	putchar(x);
+}
