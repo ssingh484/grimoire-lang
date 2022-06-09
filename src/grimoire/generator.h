@@ -75,4 +75,5 @@ private:
     std::unique_ptr<llvm::Module> module;
     std::unique_ptr<llvm::IRBuilder<>>  builder;
     std::shared_ptr<SymbolTable> symbolTable;
+    std::map< std::string, llvm::AllocaInst *> localVars;
 };

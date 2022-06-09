@@ -1,28 +1,6 @@
-summon i from int embodies 73;
-summon l from int embodies 76;
-summon o from int embodies 79;
-summon v from int embodies 86;
-summon space from int embodies 32;
-summon e from int embodies 69;
-summon y from int embodies 89;
-summon u from int embodies 85;
-summon arr_test from array [10] of int embodies 85;
-
-spell wakanda(a from int) from array[10] of int {
-	putchar(a);
-	return arr_test;
-}
-
+summon i from int embodies 57;
 spell genesis ( ) {
-wakanda(i);
-putchar(i);
-putchar(space);
-putchar(l);
-putchar(o);
-putchar(v);
-putchar(e);
-putchar(space);
-putchar(y);
-putchar(o);
-putchar(u);
+	summon x from int embodies 1;
+	x becomes i;
+	writei(x);
 }

@@ -99,11 +99,15 @@ void    SymbolTable::add(std::shared_ptr<Symbol> symbol, int at) {
  * @return
  */
 std::shared_ptr<Symbol> SymbolTable::get(std::string name, int at) {
-    std::map<std::basic_string<char>, std::shared_ptr<Symbol>> scope = symbolTable.at(0);
+    std::map<std::basic_string<char>, std::shared_ptr<Symbol>> scope = symbolTable.at(at);
     auto symbol = scope.find(name);
     if(symbol != scope.end() ) {
         return symbol->second;
+    } else if (at != 0)
+    {
+        return this->get(name);
     }
+    
     return nullptr;
 }
 /**

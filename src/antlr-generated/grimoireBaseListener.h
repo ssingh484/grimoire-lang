@@ -57,6 +57,12 @@ public:
   virtual void enterParam(grimoireParser::ParamContext * /*ctx*/) override { }
   virtual void exitParam(grimoireParser::ParamContext * /*ctx*/) override { }
 
+  virtual void enterLocalslist(grimoireParser::LocalslistContext * /*ctx*/) override { }
+  virtual void exitLocalslist(grimoireParser::LocalslistContext * /*ctx*/) override { }
+
+  virtual void enterLocaldeclaration(grimoireParser::LocaldeclarationContext * /*ctx*/) override { }
+  virtual void exitLocaldeclaration(grimoireParser::LocaldeclarationContext * /*ctx*/) override { }
+
   virtual void enterStatseq(grimoireParser::StatseqContext * /*ctx*/) override { }
   virtual void exitStatseq(grimoireParser::StatseqContext * /*ctx*/) override { }
 

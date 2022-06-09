@@ -40,7 +40,7 @@ public:
 
     grimoireCompilerVisitor(const std::string filename, const Compiler *compiler) : filename(filename), compiler(compiler) { }
 
-    std::shared_ptr<Expression> parseExpression(antlrcppgrim::grimoireParser::ExprContext *ctx) {
+    std::shared_ptr<Expression> parseExpression(antlrcppgrim::grimoireParser::ExprContext *ctx, int scope = 0) {
         
         if (ctx->MULT() || ctx->DIV() || ctx->ADD() || ctx->SUB())
         {
@@ -49,8 +49,8 @@ public:
                             ctx->MULT() ? ctx->MULT()->getText() :
                             ctx->DIV() ? ctx->DIV()->getText() : "";
 
-            std::shared_ptr<Expression> left_sub_exp = parseExpression(ctx->term());
-            std::shared_ptr<Expression> right_sub_exp = parseExpression(ctx->expr());
+            std::shared_ptr<Expression> left_sub_exp = parseExpression(ctx->term(), scope);
+            std::shared_ptr<Expression> right_sub_exp = parseExpression(ctx->expr(), scope);
             return MathExpression::create(left_sub_exp, op, right_sub_exp, ctx->getStart()->getLine());
         } else if (ctx->EQUAL() || ctx->NOTEQUAL() || ctx->GREAT() || ctx->LESS() || ctx->GREATEQUAL() || ctx->LESSEQUAL())
         {
@@ -61,33 +61,33 @@ public:
                             ctx->GREATEQUAL() ? ctx->GREATEQUAL()->getText() : 
                             ctx->LESSEQUAL() ? ctx->LESSEQUAL()->getText() : "";
 
-            std::shared_ptr<Expression> left_sub_exp = parseExpression(ctx->term());
-            std::shared_ptr<Expression> right_sub_exp = parseExpression(ctx->expr());
+            std::shared_ptr<Expression> left_sub_exp = parseExpression(ctx->term(), scope);
+            std::shared_ptr<Expression> right_sub_exp = parseExpression(ctx->expr(), scope);
             return ComparisonExpression::create(left_sub_exp, op, right_sub_exp, ctx->getStart()->getLine());
         } else if (ctx->AND() || ctx->OR())
         {
             std::string op = ctx->AND() ? ctx->AND()->getText() :
                             ctx->OR() ? ctx->OR()->getText() : "";
 
-            std::shared_ptr<Expression> left_sub_exp = parseExpression(ctx->term());
-            std::shared_ptr<Expression> right_sub_exp = parseExpression(ctx->expr());
+            std::shared_ptr<Expression> left_sub_exp = parseExpression(ctx->term(), scope);
+            std::shared_ptr<Expression> right_sub_exp = parseExpression(ctx->expr(), scope);
             return LogicalExpression::create(left_sub_exp, op, right_sub_exp, ctx->getStart()->getLine());
         } else if (ctx->NOT())
         {
             std::string op = ctx->NOT() ? ctx->NOT()->getText() : "";
-            std::shared_ptr<Expression> target = parseExpression(ctx->expr());
+            std::shared_ptr<Expression> target = parseExpression(ctx->expr(), scope);
             return UnaryExpression::create(target, op, ctx->getStart()->getLine());
         } else
         {
             
-            return parseExpression(ctx->term());
+            return parseExpression(ctx->term(), scope);
             
         }
         
         
     }
 
-    std::shared_ptr<Expression> parseExpression(antlrcppgrim::grimoireParser::TermContext *ctx) {
+    std::shared_ptr<Expression> parseExpression(antlrcppgrim::grimoireParser::TermContext *ctx, int scope = 0) {
         if (ctx->INTLIT())
         {
             return IntegerLiteral::create(ctx->INTLIT()->getText(), ctx->getStart()->getLine());
@@ -96,23 +96,24 @@ public:
             if (ctx->lvaluetail()->OPENSQBRACKET())
             {
                 std::string name = ctx->ID()->getText();
-                std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name);
+                std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name, scope);
                 if (symbol)
                 {
-                    std::shared_ptr<Identifier> var = Identifier::create(name, ctx->getStart()->getLine());
-                    std::shared_ptr<Expression> index = parseExpression(ctx->lvaluetail()->expr());
-                    return ArrayIdentifier::create(var, index, ctx->getStart()->getLine());
+                    std::shared_ptr<Identifier> var = Identifier::create(name, ctx->getStart()->getLine(), scope);
+                    std::shared_ptr<Expression> index = parseExpression(ctx->lvaluetail()->expr(), scope);
+                    return ArrayIdentifier::create(var, index, ctx->getStart()->getLine(), scope);
                 } else {
                     std::cout << "UNIDENTIFIED SYMBOL: " << name;
                     exit(-1);
                     return nullptr;
                 }
             } else {
-                std::string name = ctx->ID()->getText();
-                std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name);
+                std::string name = ctx->ID()->getText();                
+                
+                std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name, scope);
                 if (symbol)
                 {
-                    return Identifier::create(name, ctx->getStart()->getLine());
+                    return Identifier::create(name, ctx->getStart()->getLine(), scope);
                 } else {
                     std::cout << "UNIDENTIFIED SYMBOL: " << name;
                     exit(-1);
@@ -127,7 +128,7 @@ public:
                 
                 for ( auto expr_context : ctx->funcexpr()->exprlist()->expr())
                 {
-                    args.push_back(grimoireCompilerVisitor::parseExpression(expr_context));
+                    args.push_back(grimoireCompilerVisitor::parseExpression(expr_context, scope));
                     
                     // call->add(arg);
                     // std::cout << "Processing Arg: " << call->getArgs().size() <<std::endl;
@@ -137,7 +138,7 @@ public:
             return FunctionCall::create(trim(ctx->funcexpr()->ID()->getText()), args, ctx->getStart()->getLine());
         }  else
         {
-            return parseExpression(ctx->expr());
+            return parseExpression(ctx->expr(), scope);
         }
 
 

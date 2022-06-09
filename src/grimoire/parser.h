@@ -58,6 +58,7 @@ public:
 
 private:
     std::stack<std::shared_ptr<Node>> scopeStack;
+    std::stack<int> symbolScopeStack;
 
 
 };

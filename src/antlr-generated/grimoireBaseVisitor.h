@@ -69,6 +69,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitLocalslist(grimoireParser::LocalslistContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitLocaldeclaration(grimoireParser::LocaldeclarationContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitStatseq(grimoireParser::StatseqContext *ctx) override {
     return visitChildren(ctx);
   }

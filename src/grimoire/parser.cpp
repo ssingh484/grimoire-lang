@@ -16,7 +16,7 @@ grimoireCodeVisitor::grimoireCodeVisitor(const std::string &filename, const Comp
 antlrcpp::Any grimoireCodeVisitor::visitGrimoire(antlrcppgrim::grimoireParser::GrimoireContext *ctx) {
     std::cout << "----- Processing Grimoire Program -----";
     // std::shared_ptr<FunctionDeclaration> subroutine = FunctionDeclaration::create("main");
-    // scopeStack.push(subroutine);
+    symbolScopeStack.push(0);
 
     return antlrcppgrim::grimoireBaseVisitor::visitGrimoire(ctx);
 }
@@ -39,7 +39,7 @@ antlrcpp::Any grimoireCodeVisitor::visitFunccall(antlrcppgrim::grimoireParser::F
         
         for ( auto expr_context : ctx->exprlist()->expr())
         {
-            args.push_back(grimoireCompilerVisitor::parseExpression(expr_context));
+            args.push_back(grimoireCompilerVisitor::parseExpression(expr_context, symbolScopeStack.top()));
             
             // call->add(arg);
             // std::cout << "Processing Arg: " << args.at(0).use_count() <<std::endl;
@@ -70,6 +70,8 @@ antlrcpp::Any grimoireCodeVisitor::visitBeginfunc(antlrcppgrim::grimoireParser::
     /* Function Name */
     std::string name =  ctx->ID()->getText();
 
+    symbolScopeStack.push(this->compiler->symbolTable->getNamedScope(name));
+
     std::shared_ptr<FunctionDeclaration> subroutine = FunctionDeclaration::create(name,ctx->getStart()->getLine());
     scopeStack.push(subroutine);
 
@@ -87,6 +89,7 @@ antlrcpp::Any grimoireCodeVisitor::visitEndfunc(antlrcppgrim::grimoireParser::En
     if(scopeStack.size() > 0) {
         std::shared_ptr<Node> fun = scopeStack.top();
         scopeStack.pop();
+        symbolScopeStack.pop();
         addNode(fun);
     }
     return antlrcppgrim::grimoireBaseVisitor::visitEndfunc(ctx);
@@ -106,7 +109,7 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
     if(ctx->ID()) {
 
         std::string var_name = ctx->ID()->getText();
-        std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(var_name);
+        std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(var_name, symbolScopeStack.top());
         if(!symbol) {
             std::cout << " UNDEFINED identifier: " << var_name;
             exit(-1);
@@ -116,14 +119,14 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
         if (ctx->lvaluetail()->OPENSQBRACKET())
         {
             std::string name = ctx->ID()->getText();
-            std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name);
+            std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name, symbolScopeStack.top());
             if (symbol)
             {
-                std::shared_ptr<Identifier> var = Identifier::create(name, ctx->getStart()->getLine());
-                std::shared_ptr<Expression> index = grimoireCompilerVisitor::parseExpression(ctx->lvaluetail()->expr());
-                std::shared_ptr<Expression> target = ArrayIdentifier::create(var, index, ctx->getStart()->getLine());
+                std::shared_ptr<Identifier> var = Identifier::create(name, ctx->getStart()->getLine(), symbolScopeStack.top());
+                std::shared_ptr<Expression> index = grimoireCompilerVisitor::parseExpression(ctx->lvaluetail()->expr(), symbolScopeStack.top());
+                std::shared_ptr<Expression> target = ArrayIdentifier::create(var, index, ctx->getStart()->getLine(), symbolScopeStack.top());
 
-                std::shared_ptr<Expression> expression = grimoireCompilerVisitor::parseExpression(ctx->expr());
+                std::shared_ptr<Expression> expression = grimoireCompilerVisitor::parseExpression(ctx->expr(), symbolScopeStack.top());
 
                 std::shared_ptr<AssignmentStatement> assignment = AssignmentStatement::create(target, expression, ctx->getStart()->getLine());
                 addNode(assignment);
@@ -134,12 +137,12 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
             }
         } else {
             std::string name = ctx->ID()->getText();
-            std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name);
+            std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name, symbolScopeStack.top());
             if (symbol)
             {
-                std::shared_ptr<Expression> target = Identifier::create(name, ctx->getStart()->getLine());
+                std::shared_ptr<Expression> target = Identifier::create(name, ctx->getStart()->getLine(), symbolScopeStack.top());
 
-                std::shared_ptr<Expression> expression = grimoireCompilerVisitor::parseExpression(ctx->expr());
+                std::shared_ptr<Expression> expression = grimoireCompilerVisitor::parseExpression(ctx->expr(), symbolScopeStack.top());
 
                 std::shared_ptr<AssignmentStatement> assignment = AssignmentStatement::create(target, expression, ctx->getStart()->getLine());
                 addNode(assignment);
@@ -185,7 +188,7 @@ antlrcpp::Any grimoireCodeVisitor::visitIfcond(antlrcppgrim::grimoireParser::Ifc
     std::string cond = ctx->expr() ? ctx->expr()->getText() : "";
     std::cout << this->filename << "(" << ctx->getStart()->getLine() << ")" <<  " : IF " <<  cond ;
 
-    std::shared_ptr<Expression> expression = grimoireCompilerVisitor::parseExpression(ctx->expr());
+    std::shared_ptr<Expression> expression = grimoireCompilerVisitor::parseExpression(ctx->expr(), symbolScopeStack.top());
     std::shared_ptr<IfClause> if_node = IfClause::create(expression, ctx->expr()->getStart()->getLine());
 
     /* Get the conditional clause from the scopeStack stack and add the if_node condition */
@@ -256,17 +259,17 @@ antlrcpp::Any grimoireCodeVisitor::visitForstat(antlrcppgrim::grimoireParser::Fo
 
     std::cout << this->filename << "(" << ctx->getStart()->getLine() << ") : FOR " << start << "TO" << stop;
 
-    std::shared_ptr<Expression> start_exp = grimoireCompilerVisitor::parseExpression(ctx->expr(0));
-    std::shared_ptr<Expression> stop_exp = grimoireCompilerVisitor::parseExpression(ctx->expr(1));
+    std::shared_ptr<Expression> start_exp = grimoireCompilerVisitor::parseExpression(ctx->expr(0), symbolScopeStack.top());
+    std::shared_ptr<Expression> stop_exp = grimoireCompilerVisitor::parseExpression(ctx->expr(1), symbolScopeStack.top());
         
     if(ctx->ID()) {
 
         // std::shared_ptr<Expression> target;
         std::string name = ctx->ID()->getText();
-        std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name);
+        std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(name, symbolScopeStack.top());
         if (symbol)
         {
-            std::shared_ptr<Expression> target = Identifier::create(name, ctx->getStart()->getLine());
+            std::shared_ptr<Expression> target = Identifier::create(name, ctx->getStart()->getLine(), symbolScopeStack.top());
             
             std::shared_ptr<Expression> increment =  IntegerLiteral::create("1",ctx->getStart()->getLine());
             std::string op  =  "+";
@@ -324,7 +327,7 @@ antlrcpp::Any grimoireCodeVisitor::visitRetstat(antlrcppgrim::grimoireParser::Re
 
     std::cout << this->filename << "(" << ctx->getStart()->getLine() << ")" <<  " : RETURN " << ctx->expr()->getText();
 
-    std::shared_ptr<Expression> ret_var = grimoireCompilerVisitor::parseExpression(ctx->expr());
+    std::shared_ptr<Expression> ret_var = grimoireCompilerVisitor::parseExpression(ctx->expr(), symbolScopeStack.top());
     
     std::shared_ptr<ReturnStatement> ret_statement =  ReturnStatement::create(ret_var,ctx->getStart()->getLine());
 

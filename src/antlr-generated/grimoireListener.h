@@ -55,6 +55,12 @@ public:
   virtual void enterParam(grimoireParser::ParamContext *ctx) = 0;
   virtual void exitParam(grimoireParser::ParamContext *ctx) = 0;
 
+  virtual void enterLocalslist(grimoireParser::LocalslistContext *ctx) = 0;
+  virtual void exitLocalslist(grimoireParser::LocalslistContext *ctx) = 0;
+
+  virtual void enterLocaldeclaration(grimoireParser::LocaldeclarationContext *ctx) = 0;
+  virtual void exitLocaldeclaration(grimoireParser::LocaldeclarationContext *ctx) = 0;
+
   virtual void enterStatseq(grimoireParser::StatseqContext *ctx) = 0;
   virtual void exitStatseq(grimoireParser::StatseqContext *ctx) = 0;
 

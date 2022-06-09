@@ -45,6 +45,44 @@ std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoirePars
 }
 
 /**
+ * Process a local variable declaration
+ * @param ctx
+ * @return symbol
+ */
+std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoireParser::LocaldeclarationContext* ctx) {
+    if (ctx->ID()) {
+        /* Symbol Name */
+        std::string name = ctx->ID()->getText();
+
+        /* Creates the symbol and the specifier */
+        std::shared_ptr<Symbol> symbol = std::make_shared<Symbol>(name, ctx->getStart()->getLine());
+        std::shared_ptr<SymbolSpecifier> specifier = std::make_shared<SymbolSpecifier>("I");
+
+        /* array */
+        if (ctx->type()->ARRAY())
+        {
+            int arraySize = stoi(ctx->type()->INTLIT()->getText());
+            std::shared_ptr<ArrayDeclarator> declarator = std::make_shared<ArrayDeclarator>(arraySize);
+            symbol->addDeclarator(declarator);
+        }
+        
+
+        /* value */
+        if (ctx->optionalinit()->EMBODIES())
+        {
+            specifier->setValue(IntegerLiteral::create( ctx->optionalinit()->INTLIT()->getText(), ctx->getStart()->getLine()));
+        } else
+        {
+            specifier->setValue(IntegerLiteral::create( "0", ctx->getStart()->getLine()));
+        }
+
+        symbol->addSpecifier(specifier);
+        return symbol;
+    }
+    return nullptr;
+}
+
+/**
  * Process a function declaration
  * @param ctx
  * @return symbol
@@ -97,6 +135,27 @@ std::shared_ptr<Symbol> grimoireSymbolFactory::create(antlrcppgrim::grimoirePars
         param_var->addSpecifier(param_specifier);
 
         declarator->addParam(param_var);
+    }
+
+    /* Function locals */
+    
+    for (auto local_ctx : ctx->localslist()->localdeclaration())
+    {
+        /* Creates the symbol and the specifier */
+        // std::shared_ptr<Symbol> local_var = std::make_shared<Symbol>(local_ctx->ID()->getText(), ctx->getStart()->getLine());
+        std::shared_ptr<Symbol> local_var = this->create(local_ctx);
+        // std::shared_ptr<SymbolSpecifier> param_specifier = std::make_shared<SymbolSpecifier>("I");
+
+        // /* array */
+        // if (local_ctx->type()->ARRAY())
+        // {
+        //     int arraySize = stoi(local_ctx->type()->INTLIT()->getText());
+        //     std::shared_ptr<ArrayDeclarator> local_declarator = std::make_shared<ArrayDeclarator>(arraySize);
+        //     local_var->addDeclarator(local_declarator);
+        // }
+        // local_var->addSpecifier(param_specifier);
+
+        declarator->addLocal(local_var);
     }
 
     symbol->addDeclarator(declarator);
@@ -159,23 +218,37 @@ antlrcpp::Any grimoireDeclarationVisitor::visitFunctdeclaration(antlrcppgrim::gr
     std::shared_ptr<Symbol> symbol = parseSubroutine(ctx);
     if (symbol) {
         this->compiler->symbolTable->add(symbol);
-        for (auto param_ctx : ctx->beginfunc()->paramlist()->param())
+        this->compiler->symbolTable->addNamedScope(name);
+        int scope = this->compiler->symbolTable->getNamedScope(name);
+        std::cout << std::endl << name << " HAS SCOPE NUMBER " << scope << std::endl;
+        for (std::shared_ptr<Symbol> param : symbol->getFunctionDeclarator()->getParams())
         {
-            /* Creates the symbol and the specifier */
-            std::shared_ptr<Symbol> param_var = std::make_shared<Symbol>(param_ctx->ID()->getText(), ctx->getStart()->getLine());
-            std::shared_ptr<SymbolSpecifier> param_specifier = std::make_shared<SymbolSpecifier>("I");
-
-            /* array */
-            if (param_ctx->type()->ARRAY())
-            {
-                int arraySize = stoi(param_ctx->type()->INTLIT()->getText());
-                std::shared_ptr<ArrayDeclarator> param_declarator = std::make_shared<ArrayDeclarator>(arraySize);
-                param_var->addDeclarator(param_declarator);
-            }
-            param_var->addSpecifier(param_specifier);
-
-            this->compiler->symbolTable->add(param_var);
+            this->compiler->symbolTable->add( param, scope);
         }
+
+        for (std::shared_ptr<Symbol> local : symbol->getFunctionDeclarator()->getLocals())
+        {
+            this->compiler->symbolTable->add( local, scope);
+        }
+        
+        
+        // for (auto param_ctx : ctx->beginfunc()->paramlist()->param())
+        // {
+        //     /* Creates the symbol and the specifier */
+        //     std::shared_ptr<Symbol> param_var = std::make_shared<Symbol>(param_ctx->ID()->getText(), ctx->getStart()->getLine());
+        //     std::shared_ptr<SymbolSpecifier> param_specifier = std::make_shared<SymbolSpecifier>("I");
+
+        //     /* array */
+        //     if (param_ctx->type()->ARRAY())
+        //     {
+        //         int arraySize = stoi(param_ctx->type()->INTLIT()->getText());
+        //         std::shared_ptr<ArrayDeclarator> param_declarator = std::make_shared<ArrayDeclarator>(arraySize);
+        //         param_var->addDeclarator(param_declarator);
+        //     }
+        //     param_var->addSpecifier(param_specifier);
+
+        //     this->compiler->symbolTable->add(param_var);
+        // }
     }
     return grimoireBaseVisitor::visitFunctdeclaration(ctx);
 }

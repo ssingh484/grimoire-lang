@@ -17,6 +17,7 @@ public:
 public:
     std::shared_ptr<Symbol> create(antlrcppgrim::grimoireParser::VardeclarationContext* ctx);
     std::shared_ptr<Symbol> create(antlrcppgrim::grimoireParser::FunctdeclarationContext* ctx);
+    std::shared_ptr<Symbol> create(antlrcppgrim::grimoireParser::LocaldeclarationContext* ctx);
 
     static std::string replace(std::string str, const std::string& from, const std::string& to) {
         size_t start_pos = 0;

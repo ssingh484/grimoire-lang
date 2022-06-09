@@ -323,26 +323,32 @@ private:
 
 class Identifier : public Expression {
 public:
-    Identifier(int line, const Token &token) : Expression(line, token) {}
+    Identifier(int line, const Token &token, int scope) : Expression(line, token), _scope(scope) {}
 
-    static std::shared_ptr<Identifier> create(std::string name, int line = 0) {
+    static std::shared_ptr<Identifier> create(std::string name, int line = 0, int scope = 0) {
         Token token(Token::SYMBOL, name);
-        return std::make_shared<Identifier>(line, token);
+        return std::make_shared<Identifier>(line, token, scope);
     }
     llvm::Value *accept(Generator *v, void *param = nullptr) override { return v->visit(this,param); }
+
+    const int getScope() const {
+        return _scope;
+    }
 
     std::string toString() override {
         return this->getValue();
     }
+private:
+    int _scope;
 };
 
 class ArrayIdentifier : public Expression {
 public:
-    ArrayIdentifier(int line, std::shared_ptr<Identifier> var, std::shared_ptr<Expression> index, const Token &token) : Expression(line, token), _var(var), _index(index) {}
+    ArrayIdentifier(int line, std::shared_ptr<Identifier> var, std::shared_ptr<Expression> index, const Token &token, int scope) : Expression(line, token), _var(var), _index(index), _scope(scope) {}
 
-    static std::shared_ptr<ArrayIdentifier> create(std::shared_ptr<Identifier> var, std::shared_ptr<Expression> index, int line = 0) {
+    static std::shared_ptr<ArrayIdentifier> create(std::shared_ptr<Identifier> var, std::shared_ptr<Expression> index, int line = 0, int scope = 0) {
         Token token(Token::ARR, var->getValue());
-        return std::make_shared<ArrayIdentifier>(line, var, index, token);
+        return std::make_shared<ArrayIdentifier>(line, var, index, token, scope);
     }
     llvm::Value *accept(Generator *v, void *param = nullptr) override { return v->visit(this,param); }
 
@@ -354,6 +360,10 @@ public:
         return _index;
     }
 
+    const int getScope() const {
+        return _scope;
+    }
+
     std::string toString() override {
         return this->getValue();
     }
@@ -361,6 +371,7 @@ public:
 private:
     std::shared_ptr<Identifier> _var;
     std::shared_ptr<Expression> _index;
+    int _scope;
 };
 
 class Statement : public Node {

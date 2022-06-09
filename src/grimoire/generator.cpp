@@ -119,8 +119,42 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
     std::vector<llvm::Type*> putchar_params;
     putchar_params.push_back(llvm::Type::getInt8Ty(llvmContext));
     /* External function declaration */
-    llvm::FunctionType *putchar_type = llvm::FunctionType::get(llvm::Type::getInt8Ty(llvmContext),putchar_params, false);
+    llvm::FunctionType *putchar_type = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext),putchar_params, false);
     llvm::Function *putchar_func = llvm::Function::Create(putchar_type, llvm::Function::ExternalLinkage, "putchar", this->module.get());
+
+    std::vector<llvm::Type*> printf_params;
+    printf_params.push_back(llvm::Type::getInt8PtrTy(llvmContext));
+    /* External function declaration */
+    llvm::FunctionType *printf_type = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext),printf_params, true);
+    llvm::Function *printf_func = llvm::Function::Create(printf_type, llvm::Function::ExternalLinkage, "printf", this->module.get());
+
+    std::vector<llvm::Type*> writec_params;
+    writec_params.push_back(llvm::Type::getInt32Ty(llvmContext));
+    llvm::FunctionType *writec_ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext),writec_params,false);
+    llvm::Function *writec = llvm::Function::Create(writec_ft, llvm::Function::ExternalLinkage, "writec", this->module.get());
+
+    llvm::BasicBlock *BB0 = llvm::BasicBlock::Create(llvmContext, "",writec);
+    builder->SetInsertPoint(BB0);
+    llvm::Value * trunc_val = builder->CreateTrunc(writec->getArg(0), llvm::Type::getInt8Ty(llvmContext));
+    builder->CreateCall(putchar_func, trunc_val);
+    builder->CreateRetVoid();
+
+    std::vector<llvm::Type*> writei_params;
+    writei_params.push_back(llvm::Type::getInt32Ty(llvmContext));
+    llvm::FunctionType *writei_ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext),writei_params,false);
+    llvm::Function *writei = llvm::Function::Create(writei_ft, llvm::Function::ExternalLinkage, "writei", this->module.get());
+
+    llvm::BasicBlock *BB1 = llvm::BasicBlock::Create(llvmContext, "",writei);
+    builder->SetInsertPoint(BB1);
+    std::vector<llvm::Value *> writei_args;
+    llvm::Value * format_string = llvm::ConstantExpr::getBitCast(module->getNamedGlobal("pstr"), charType->getPointerTo());
+    writei_args.push_back(format_string);
+    writei_args.push_back(writei->getArg(0));
+
+    std::cout << "PRINTF HAS NUM ARGS: " << printf_type->getParamType(0) << std::endl;
+    // llvm::Value * trunc_val = builder->CreateTrunc(writec->getArg(0), llvm::Type::getInt8Ty(llvmContext));
+    builder->CreateCall(printf_func, writei_args);
+    builder->CreateRetVoid();
 
     // std::vector<llvm::Type*> display_params;
     // display_params.push_back(llvm::Type::getInt8Ty(llvmContext));
@@ -140,8 +174,8 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
     llvm::FunctionType *ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext),params,false);
     llvm::Function *inz = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "INZ", this->module.get());
 
-    llvm::BasicBlock *BB = llvm::BasicBlock::Create(llvmContext, "",inz);
-    builder->SetInsertPoint(BB);
+    llvm::BasicBlock *BB2 = llvm::BasicBlock::Create(llvmContext, "",inz);
+    builder->SetInsertPoint(BB2);
 
     /* Process the symbol table and create the initialization values*/
     std::map<std::basic_string<char>, std::shared_ptr<Symbol>> global = symbolTable->getSymbols(0);
@@ -154,7 +188,7 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
                 llvm::GlobalVariable *var = module->getNamedGlobal(symbol->second->getName());
                 std::shared_ptr<Expression> expression = specifier->getValue();
                 // std::cout << var << std::endl;
-                var->dump();
+                // var->dump();
                 if(expression) {
                     /* Evaluates the initialization expression */
                     llvm::Value* value = expression->accept(this);
@@ -165,12 +199,14 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
                         int  given_v = std::stoi(specifier->getValue()->getValue());
                         for (int i = 0 ; i < symbol->second->getArrayDeclarator()->getSize() ; i++)
                         {
-                            init_vec[i] = llvm::ConstantInt::get(llvmContext, llvm::APInt(8, given_v, true));
+                            init_vec[i] = llvm::ConstantInt::get(llvmContext, llvm::APInt(32, given_v, true));
                         }
-                        value = llvm::ConstantArray::get(llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext), symbol->second->getArrayDeclarator()->getSize()), init_vec);
+                        value = llvm::ConstantArray::get(llvm::ArrayType::get(llvm::Type::getInt32Ty(llvmContext), symbol->second->getArrayDeclarator()->getSize()), init_vec);
                     }
                     
                     /* Creates the store instruction with the initialization value */
+                    var->dump();
+                    value->dump();
                     builder->CreateStore(value,var);
                 }
             }
@@ -190,7 +226,7 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
 void GeneratorLLVM::declare(class Symbol *symbol) {
     FunctionDeclarator *function = symbol->getFunctionDeclarator();
     std::string what = function ? "processing subroutine declaration" : "processing data declaration";
-    std::cout << std::endl << what << std::endl;
+    std::cout << std::endl << what << symbol->getName() << std::endl;
     // Declares a function prototype
     if(function) {
 
@@ -201,12 +237,12 @@ void GeneratorLLVM::declare(class Symbol *symbol) {
         {
             if (given_param->getArrayDeclarator())
             {
-                declare(given_param.get());
-                params.push_back(llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext), given_param->getArrayDeclarator()->getSize()));
+                // declare(given_param.get());
+                params.push_back(llvm::ArrayType::get(llvm::Type::getInt32Ty(llvmContext), given_param->getArrayDeclarator()->getSize()));
             } else
             {
-                declare(given_param.get());
-                params.push_back(llvm::Type::getInt8Ty(llvmContext));
+                // declare(given_param.get());
+                params.push_back(llvm::Type::getInt32Ty(llvmContext));
             }
             
         }
@@ -222,14 +258,14 @@ void GeneratorLLVM::declare(class Symbol *symbol) {
             {
                 if (given_ret->getArrayDeclarator())
                 {
-                    ret_type = llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext), given_ret->getArrayDeclarator()->getSize());
+                    ret_type = llvm::ArrayType::get(llvm::Type::getInt32Ty(llvmContext), given_ret->getArrayDeclarator()->getSize());
                 } else {
-                    ret_type = llvm::Type::getInt8Ty(llvmContext);
+                    ret_type = llvm::Type::getInt32Ty(llvmContext);
                 }
                 
             } else
             {
-                ret_type = llvm::Type::getInt8Ty(llvmContext);
+                ret_type = llvm::Type::getInt32Ty(llvmContext);
             }
             
             
@@ -262,14 +298,14 @@ void GeneratorLLVM::declare(class Symbol *symbol) {
             {
                 if (symbol->getArrayDeclarator())
                 {
-                    this->module->getOrInsertGlobal(symbol->getName(), llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext), symbol->getArrayDeclarator()->getSize()) );
+                    this->module->getOrInsertGlobal(symbol->getName(), llvm::ArrayType::get(llvm::Type::getInt32Ty(llvmContext), symbol->getArrayDeclarator()->getSize()) );
                 } else {
-                    this->module->getOrInsertGlobal(symbol->getName(),builder->getInt8Ty());
+                    this->module->getOrInsertGlobal(symbol->getName(),builder->getInt32Ty());
                 }
                 
             } else
             {
-                this->module->getOrInsertGlobal(symbol->getName(),builder->getInt8Ty());
+                this->module->getOrInsertGlobal(symbol->getName(),builder->getInt32Ty());
             }
             // Get the variable
             llvm::GlobalVariable *var = module->getNamedGlobal(symbol->getName());
@@ -279,7 +315,7 @@ void GeneratorLLVM::declare(class Symbol *symbol) {
 
                 if (symbol->getArrayDeclarator())
                 {
-                    initValue = llvm::ConstantAggregateZero::get(llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext), symbol->getArrayDeclarator()->getSize()));
+                    initValue = llvm::ConstantAggregateZero::get(llvm::ArrayType::get(llvm::Type::getInt32Ty(llvmContext), symbol->getArrayDeclarator()->getSize()));
                     
                     // initValue = llvm::ConstantInt::get(llvmContext, llvm::APInt(8, 0, true));
                 } else
@@ -287,9 +323,9 @@ void GeneratorLLVM::declare(class Symbol *symbol) {
                     if (variable->getValue())
                     {
                         // initValue = llvm::ConstantInt::get(llvmContext, llvm::APInt(8, std::stoi(variable->getValue()->getValue()), true));
-                        initValue = llvm::ConstantInt::get(llvmContext, llvm::APInt(8, 0, true));
+                        initValue = llvm::ConstantInt::get(llvmContext, llvm::APInt(32, 0, true));
                     } else {
-                        initValue = llvm::ConstantInt::get(llvmContext, llvm::APInt(8, 0, true));
+                        initValue = llvm::ConstantInt::get(llvmContext, llvm::APInt(32, 0, true));
                     }
                     
                 }
@@ -311,7 +347,7 @@ void GeneratorLLVM::declare(class Symbol *symbol) {
  */
 llvm::Value*  GeneratorLLVM::visit(IntegerLiteral *integer,void *param) {
     int64_t ivalue = stoi(integer->getValue());
-    return llvm::ConstantInt::get(llvmContext,llvm::APInt(8,ivalue,true));
+    return llvm::ConstantInt::get(llvmContext,llvm::APInt(32,ivalue,true));
 }
 
 /**
@@ -321,7 +357,8 @@ llvm::Value*  GeneratorLLVM::visit(IntegerLiteral *integer,void *param) {
  */
 llvm::Value* GeneratorLLVM::visit(Identifier *identifier,void *param) {
     // Check if the symbol is defined
-    std::shared_ptr<Symbol> symbol = symbolTable->get(identifier->getValue());
+    std::shared_ptr<Symbol> symbol = symbolTable->get(identifier->getValue(), identifier->getScope());
+    std::cout << "LOOKING FOR : " << identifier->getValue() << " in scope : " << identifier->getScope();
     if(symbol == nullptr) {
         std::cout << "ERROR: undefined symbol: " << identifier->getValue()  << std::endl;
         exit(1);
@@ -329,7 +366,17 @@ llvm::Value* GeneratorLLVM::visit(Identifier *identifier,void *param) {
     // module->getGlobalVariable(symbol->getName())->dump();
     // module->getGlobalVariable(symbol->getName())->getType()->dump();
     // Emits a Load as the data definition are global
-    return  builder->CreateLoad(module->getGlobalVariable(symbol->getName())->getValueType() , module->getGlobalVariable(symbol->getName()));
+    llvm::Type* var_ty;
+    llvm::Value* var_val;
+    if (this->localVars.find(symbol->getName()) != this->localVars.end())
+    {
+        var_ty = this->localVars[symbol->getName()]->getAllocatedType();
+        var_val = this->localVars[symbol->getName()];
+    } else {
+        var_ty = module->getGlobalVariable(symbol->getName())->getValueType();
+        var_val = module->getGlobalVariable(symbol->getName());
+    }
+    return  builder->CreateLoad(var_ty, var_val);
 }
 
 /**
@@ -437,15 +484,41 @@ llvm::Value* GeneratorLLVM::visit(UnaryExpression *expression,void *param) {
  */
 llvm::Value* GeneratorLLVM::visit(AssignmentStatement *assignment,void *param) {
     // Check if the symbol is defined
-    std::shared_ptr<Symbol> symbol = symbolTable->get(assignment->getTarget()->getValue());
+    std::shared_ptr<Symbol> symbol;
+    if (std::dynamic_pointer_cast<ArrayIdentifier>( assignment->getTarget()) )
+    {
+        std::shared_ptr<ArrayIdentifier> arr_ptr = std::dynamic_pointer_cast<ArrayIdentifier>( assignment->getTarget());
+        symbol = symbolTable->get(arr_ptr->getValue(), arr_ptr->getScope());
+
+    } else if (std::dynamic_pointer_cast<Identifier>( assignment->getTarget()))
+    {
+        std::shared_ptr<Identifier> id_ptr = std::dynamic_pointer_cast<Identifier>( assignment->getTarget());
+        symbol = symbolTable->get(id_ptr->getValue(), id_ptr->getScope());
+    }
+    
+    //  = symbolTable->get(assignment->getTarget()->getValue(), assignment->getTarget()->getScope());
     if(symbol == nullptr) {
         std::cout << "ERROR: undefined symbol: " << assignment->getTarget()->getValue()  << std::endl;
         exit(1);
     }
-    llvm::GlobalVariable* target = module->getGlobalVariable(symbol->getName());
-    if(!target) {
+
+    llvm::Type* var_ty;
+    llvm::Value* var_val;
+    if (this->localVars.find(symbol->getName()) != this->localVars.end())
+    {
+        var_ty = this->localVars[symbol->getName()]->getAllocatedType();
+        var_val = this->localVars[symbol->getName()];
+    } else {
+        var_ty = module->getGlobalVariable(symbol->getName())->getValueType();
+        var_val = module->getGlobalVariable(symbol->getName());
+    }
+
+
+    // llvm::GlobalVariable* target = module->getGlobalVariable(symbol->getName());
+    if(!var_val) {
         std::cout << assignment->getTarget() << "  not found!";
     }
+    var_val->dump();
     if(assignment->getExpression()) {
         std::cout << std::endl << assignment->getExpression()->toString() << std::endl;
         // this->module->print(llvm::outs(), nullptr);
@@ -464,23 +537,23 @@ llvm::Value* GeneratorLLVM::visit(AssignmentStatement *assignment,void *param) {
                 std::vector<llvm::Value*> idx_list;
 
                 llvm::Value* idx1 = arr_ptr->getIndex()->accept(this);
-                llvm::Value* idx0 = llvm::ConstantInt::get(llvmContext, llvm::APInt(8, 0, true));
+                llvm::Value* idx0 = llvm::ConstantInt::get(llvmContext, llvm::APInt(32, 0, true));
 
                 idx_list.push_back(idx0);
                 idx_list.push_back(idx1);
 
-                llvm::Value* actual_var = builder->CreateGEP(target->getValueType(), target, idx_list);
+                llvm::Value* actual_var = builder->CreateGEP(var_ty, var_val, idx_list);
 
                 return builder->CreateStore(rhs, actual_var);
 
             } else {
-                return builder->CreateStore(rhs, target);
+                return builder->CreateStore(rhs, var_val);
             }
             
             
         }
     }
-    return target;
+    return var_val;
 }
 
 /**
@@ -505,13 +578,83 @@ llvm::Value* GeneratorLLVM::visit(FunctionDeclaration *func,void *param) {
     llvm::BasicBlock *body = llvm::BasicBlock::Create(llvmContext, "entry", function);
     builder->SetInsertPoint(body);
 
-    // The very first statement is the initialization call - INZ not in use right now
+    // The very first statement is the initialization call
     if(func->isMAIN()) {
 
         std::vector<llvm::Value *> args;
         llvm::Function *target = module->getFunction("INZ");
         llvm::CallInst *c = builder->CreateCall(target, args);
 
+    }
+
+    this->localVars.clear();
+
+    /* Creating the local stack variables for the arguments*/
+    for (auto &Arg : function->args()) {
+        std::cout << "ARGUMENT : " << Arg.getName().str() << std::endl;
+        llvm::AllocaInst* arg_alloc = builder->CreateAlloca(Arg.getType(), 0, Arg.getName().str());
+        this->localVars[Arg.getName().str()] = arg_alloc;
+        builder->CreateStore(&Arg, arg_alloc);   
+        std::cout << "ARGUMENT ALLOCED: " << Arg.getName().str() << std::endl;
+    }
+
+    /* Creating the local stack variables for local scope variables */
+    
+    /* Process the symbol table for the locals*/
+    std::shared_ptr<Symbol> func_symbol = symbolTable->getSymbols(0)[func->getName()];
+    if (func_symbol->getFunctionDeclarator() )
+    {
+        FunctionDeclarator* func_decl = func_symbol->getFunctionDeclarator();
+
+        for (std::shared_ptr<Symbol> local : func_decl->getLocals() ) {
+            std::cout << "Processing Local : " << local->getName() << std::endl;
+
+            llvm::AllocaInst* local_alloc;
+
+            SymbolSpecifier *variable = local->getSpecifier();
+            if(variable) {
+                if (variable->getStorage() == "I")
+                {
+                    if (local->getArrayDeclarator())
+                    {
+                        local_alloc = builder->CreateAlloca(llvm::ArrayType::get(llvm::Type::getInt32Ty(llvmContext), local->getArrayDeclarator()->getSize()), 0, local->getName());
+                    } else {
+                        local_alloc = builder->CreateAlloca(builder->getInt32Ty(), 0, local->getName());
+                    }
+                    
+                } else
+                {
+                    local_alloc = builder->CreateAlloca(builder->getInt32Ty(), 0, local->getName());
+                }
+
+                //Put into locals map for this function
+                this->localVars[local->getName()] = local_alloc;
+
+                // INZ value (if specified)
+                std::shared_ptr<Expression> expression = variable->getValue();
+
+                if(expression) {
+                    /* Evaluates the initialization expression */
+                    llvm::Value* value = expression->accept(this);
+                    // value->dump();
+                    if (local->getArrayDeclarator())
+                    {
+                        std::vector<llvm::Constant *> init_vec(local->getArrayDeclarator()->getSize());
+                        int  given_v = std::stoi(expression->getValue());
+                        for (int i = 0 ; i < local->getArrayDeclarator()->getSize() ; i++)
+                        {
+                            init_vec[i] = llvm::ConstantInt::get(llvmContext, llvm::APInt(32, given_v, true));
+                        }
+                        value = llvm::ConstantArray::get(llvm::ArrayType::get(llvm::Type::getInt32Ty(llvmContext), local->getArrayDeclarator()->getSize()), init_vec);
+                    }
+                    
+                    /* Creates the store instruction with the initialization value */
+                    builder->CreateStore(value, local_alloc);
+                } 
+                std::cout << "LOCAL ALLOCED: " << local->getName() << std::endl;
+            }
+            
+        }
     }
 
     // Emit the func body
@@ -565,25 +708,14 @@ llvm::Value* GeneratorLLVM::visit(FunctionCall *func,void *param) {
     if(!target) {
         std::cout << func->getName() << "  not found!";
     }
-    std::shared_ptr<Symbol> func_symbol = this->symbolTable->get(func->getName());
+
     std::vector<llvm::Value *> args;
     std::vector<std::shared_ptr<Expression>> given_args = func->getArgs();
-    std::vector<std::shared_ptr<Symbol>> named_args;
-    if (func_symbol)
-    {
-        named_args = func_symbol->getFunctionDeclarator()->getParams();
-    }
     // std::cout << "NUMBER OF ARGS FOUND: " << given_args.size();
     for (auto given_arg : given_args)
     {
         // std::cout << "Argument: " << given_arg.use_count() << std::endl;
         args.push_back(given_arg->accept(this));
-    }
-
-    for (int i = 0; i < named_args.size(); i++)
-    {
-        auto x = module->getNamedGlobal(named_args[i]->getName());
-        builder->CreateStore(args[i], x);
     }
 
     // std::cout << args.
@@ -759,21 +891,33 @@ llvm::Value* GeneratorLLVM::visit(Statement *statement,void *param) {
 
 // TODO: array identifier leads to a load via GEP maybe
 llvm::Value* GeneratorLLVM::visit(ArrayIdentifier *identifier,void *param) {
-    std::shared_ptr<Symbol> symbol = symbolTable->get(identifier->getVar()->getValue());
+    std::shared_ptr<Symbol> symbol = symbolTable->get(identifier->getVar()->getValue(), identifier->getScope());
     if(symbol == nullptr) {
         std::cout << "ERROR: undefined symbol: " << identifier->getValue()  << std::endl;
         exit(1);
     }
-    llvm::GlobalVariable* var = module->getGlobalVariable(symbol->getName());
+
+    llvm::Type* var_ty;
+    llvm::Value* var_val;
+    if (this->localVars.find(symbol->getName()) != this->localVars.end())
+    {
+        var_ty = this->localVars[symbol->getName()]->getAllocatedType();
+        var_val = this->localVars[symbol->getName()];
+    } else {
+        var_ty = module->getGlobalVariable(symbol->getName())->getValueType();
+        var_val = module->getGlobalVariable(symbol->getName());
+    }
+
+    // llvm::GlobalVariable* var = module->getGlobalVariable(symbol->getName());
     std::vector<llvm::Value*> idx_list;
 
     llvm::Value* idx1 = identifier->getIndex()->accept(this);
-    llvm::Value* idx0 = llvm::ConstantInt::get(llvmContext, llvm::APInt(8, 0, true));
+    llvm::Value* idx0 = llvm::ConstantInt::get(llvmContext, llvm::APInt(32, 0, true));
 
     idx_list.push_back(idx0);
     idx_list.push_back(idx1);
 
-    llvm::Value* actual_var = builder->CreateGEP(var->getValueType(), var, idx_list);
+    llvm::Value* actual_var = builder->CreateGEP(var_ty, var_val, idx_list);
     // module->getGlobalVariable(symbol->getName())->dump();
     // module->getGlobalVariable(symbol->getName())->getType()->dump();
     // Emits a Load as the data definition are global
@@ -781,7 +925,7 @@ llvm::Value* GeneratorLLVM::visit(ArrayIdentifier *identifier,void *param) {
     // actual_var->dump();
     // actual_var->getType()->dump();
     // var->getValueType()->getElementType()->dump();
-    return  builder->CreateLoad(llvm::Type::getInt8Ty(llvmContext), actual_var);
+    return  builder->CreateLoad(llvm::Type::getInt32Ty(llvmContext), actual_var);
 }
 
 

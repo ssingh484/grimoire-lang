@@ -194,6 +194,14 @@ public:
         return params;
     }
 
+    void addLocal(std::shared_ptr<Symbol> local) {
+        locals.push_back(local);
+    };
+
+    std::vector<std::shared_ptr<Symbol>> getLocals() {
+        return locals;
+    }
+
     std::shared_ptr<Symbol> getReturn() {
         return return_type;
     }
@@ -215,11 +223,18 @@ public:
         {
             param->dump();
         }
+        std::cout << " Locals: " << std::endl;
+        for (std::shared_ptr<Symbol> local : locals)
+        {
+            local->dump();
+        }
+        std::cout << " - end function declarator - " << std::endl;
         
     }
 
 private:
     std::vector<std::shared_ptr<Symbol>> params;
+    std::vector<std::shared_ptr<Symbol>> locals;
     std::shared_ptr<Symbol> return_type;
 };
 
@@ -228,6 +243,8 @@ public:
     SymbolTable() {
         std::map<std::basic_string<char>, std::shared_ptr<Symbol>> scope;
         symbolTable.push_back(scope);
+        named_scopes.insert({ "GLOBAL SCOPE" , 0});
+        scope_counter = 1;
     }
 
     void    add(std::shared_ptr<Symbol> symbol, int at = 0);
@@ -248,18 +265,50 @@ public:
         return unresolved;
     }
 
+    std::map<std::string, int> getNamedScopes() {
+        return named_scopes;
+    }
+
+    int getNamedScope(std::string name) {
+        auto found = named_scopes.find(name);
+        if ( found == named_scopes.end())
+        {
+            std::cout << "This named scope doesn't exist";
+            return 0;
+        }
+        return named_scopes.at(name);
+    }
+
+    void addNamedScope(std::string scope_name) {
+        auto found = named_scopes.find(scope_name);
+        if ( found != named_scopes.end())
+        {
+            std::cout << "This named scope already exists, no modification made";
+            return;
+        }
+        
+        named_scopes.insert({scope_name, scope_counter++});
+        std::map<std::basic_string<char>, std::shared_ptr<Symbol>> scope;
+        symbolTable.push_back(scope);
+    }
+
     std::map<std::basic_string<char>, std::shared_ptr<Symbol>> getSymbols(int scope = 0) {
         return symbolTable.at(scope);
     }
     void resolve();
     void dump() {
-        std::map<std::basic_string<char>, std::shared_ptr<Symbol>> scope = symbolTable.at(0);
-        std::cout << scope.size() << std::endl;
-        for (auto itr = scope.begin(); itr != scope.end(); ++itr) {
-            itr->second->dump();
+        for (std::map<std::basic_string<char>, std::shared_ptr<Symbol>> scope  : symbolTable)
+        {
+            // std::map<std::basic_string<char>, std::shared_ptr<Symbol>> scope = symbolTable.at(0);
+            std::cout << scope.size() << std::endl;
+            for (auto itr = scope.begin(); itr != scope.end(); ++itr) {
+                itr->second->dump();
+            }
         }
     }
 
 private:
     std::vector<std::map<std::string,std::shared_ptr<Symbol>>> symbolTable;
+    std::map<std::string, int> named_scopes;
+    int scope_counter;
 };

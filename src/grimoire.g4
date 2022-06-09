@@ -12,7 +12,7 @@ vardeclarationlist :
 vardeclaration : SUMMON  ID  FROM  type  optionalinit  SEMICOLON;
 functdeclarationlist :
                      | functdeclaration  functdeclarationlist;
-functdeclaration : beginfunc statseq endfunc;
+functdeclaration : beginfunc localslist statseq endfunc;
 beginfunc : FUNC ID OPENBRACKET paramlist CLOSEBRACKET rettype OPENBLOCK ;
 endfunc : CLOSEBLOCK ;
 type : INT
@@ -23,6 +23,8 @@ paramlist : (param (COMMA param)*)? ;
 rettype :
         | FROM type;
 param : ID FROM type;
+localslist : (localdeclaration (localdeclaration)*)? ;
+localdeclaration : SUMMON  ID  FROM  type  optionalinit  SEMICOLON;
 statseq : stat stattail;
 stattail:
         | statseq;

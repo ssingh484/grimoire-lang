@@ -28,11 +28,12 @@ public:
     RuleGrimoire = 0, RuleDeclarationsegment = 1, RuleVardeclarationlist = 2, 
     RuleVardeclaration = 3, RuleFunctdeclarationlist = 4, RuleFunctdeclaration = 5, 
     RuleBeginfunc = 6, RuleEndfunc = 7, RuleType = 8, RuleOptionalinit = 9, 
-    RuleParamlist = 10, RuleRettype = 11, RuleParam = 12, RuleStatseq = 13, 
-    RuleStattail = 14, RuleStat = 15, RuleAssignstat = 16, RuleFunccall = 17, 
-    RuleFuncexpr = 18, RuleCondstat = 19, RuleCondstattail = 20, RuleIfcond = 21, 
-    RuleElsecond = 22, RuleEndcondstat = 23, RuleForstat = 24, RuleEndfor = 25, 
-    RuleRetstat = 26, RuleExpr = 27, RuleTerm = 28, RuleExprlist = 29, RuleLvaluetail = 30
+    RuleParamlist = 10, RuleRettype = 11, RuleParam = 12, RuleLocalslist = 13, 
+    RuleLocaldeclaration = 14, RuleStatseq = 15, RuleStattail = 16, RuleStat = 17, 
+    RuleAssignstat = 18, RuleFunccall = 19, RuleFuncexpr = 20, RuleCondstat = 21, 
+    RuleCondstattail = 22, RuleIfcond = 23, RuleElsecond = 24, RuleEndcondstat = 25, 
+    RuleForstat = 26, RuleEndfor = 27, RuleRetstat = 28, RuleExpr = 29, 
+    RuleTerm = 30, RuleExprlist = 31, RuleLvaluetail = 32
   };
 
   explicit grimoireParser(antlr4::TokenStream *input);
@@ -65,6 +66,8 @@ public:
   class ParamlistContext;
   class RettypeContext;
   class ParamContext;
+  class LocalslistContext;
+  class LocaldeclarationContext;
   class StatseqContext;
   class StattailContext;
   class StatContext;
@@ -172,6 +175,7 @@ public:
     FunctdeclarationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     BeginfuncContext *beginfunc();
+    LocalslistContext *localslist();
     StatseqContext *statseq();
     EndfuncContext *endfunc();
 
@@ -306,6 +310,42 @@ public:
   };
 
   ParamContext* param();
+
+  class  LocalslistContext : public antlr4::ParserRuleContext {
+  public:
+    LocalslistContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<LocaldeclarationContext *> localdeclaration();
+    LocaldeclarationContext* localdeclaration(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LocalslistContext* localslist();
+
+  class  LocaldeclarationContext : public antlr4::ParserRuleContext {
+  public:
+    LocaldeclarationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *SUMMON();
+    antlr4::tree::TerminalNode *ID();
+    antlr4::tree::TerminalNode *FROM();
+    TypeContext *type();
+    OptionalinitContext *optionalinit();
+    antlr4::tree::TerminalNode *SEMICOLON();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LocaldeclarationContext* localdeclaration();
 
   class  StatseqContext : public antlr4::ParserRuleContext {
   public:

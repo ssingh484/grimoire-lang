@@ -46,6 +46,10 @@ public:
 
     virtual std::any visitParam(grimoireParser::ParamContext *context) = 0;
 
+    virtual std::any visitLocalslist(grimoireParser::LocalslistContext *context) = 0;
+
+    virtual std::any visitLocaldeclaration(grimoireParser::LocaldeclarationContext *context) = 0;
+
     virtual std::any visitStatseq(grimoireParser::StatseqContext *context) = 0;
 
     virtual std::any visitStattail(grimoireParser::StattailContext *context) = 0;

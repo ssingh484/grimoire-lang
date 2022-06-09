@@ -1,20 +1,19 @@
-summon t1 from int;
-summon t2 from int;
 summon x from int;
 
 spell fib(n from int) from int {
+	summon t from array [2] of int;
         if (n <= 1) {
 		return n;
 	} else {
-		t1 becomes fib(n - 1);
-		t2 becomes fib(n - 2);
-        	return (t1 + t2);
+		t[0] becomes fib(n - 1);
+		t[1] becomes fib(n - 2);
+        	return (t[0] + t[1]);
 	}
 	return 0;
 }
 
 spell genesis () {
-	x becomes 10;
-	x becomes fib(x);
-	putchar(x);
+	for x becomes 0 to 20 {
+		writei( fib(x) );
+	}
 }
