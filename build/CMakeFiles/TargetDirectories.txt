@@ -1,9 +1,0 @@
-D:/grimoire_lang/build/CMakeFiles/intrinsics_gen.dir
-D:/grimoire_lang/build/CMakeFiles/omp_gen.dir
-D:/grimoire_lang/build/CMakeFiles/acc_gen.dir
-D:/grimoire_lang/build/CMakeFiles/antlr4_runtime.dir
-D:/grimoire_lang/build/CMakeFiles/antlr4_runtime-build_static.dir
-D:/grimoire_lang/build/CMakeFiles/antlr4_runtime-build_shared.dir
-D:/grimoire_lang/build/CMakeFiles/grimoire.dir
-D:/grimoire_lang/build/CMakeFiles/ALL_BUILD.dir
-D:/grimoire_lang/build/CMakeFiles/ZERO_CHECK.dir

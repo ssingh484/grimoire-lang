@@ -35,12 +35,19 @@ class GeneratorLLVM : public Generator {
 public:
 
     GeneratorLLVM(std::string filename) {
-        // this->filename = filename;
+        this->filename = filename;
 
-        // this->module = std::make_unique<llvm::Module>(llvm::StringRef(filename),llvmContext);
-        // this->builder = std::make_unique<llvm::IRBuilder<>>(llvmContext);
-        // auto TargetTriple = llvm::sys::getDefaultTargetTriple();
-        // module->setTargetTriple(TargetTriple);
+        this->module = std::make_unique<llvm::Module>(llvm::StringRef(filename),llvmContext);
+        this->builder = std::make_unique<llvm::IRBuilder<>>(llvmContext);
+        auto TargetTriple = llvm::sys::getDefaultTargetTriple();
+        // std::cout << std::endl << TargetTriple << std::endl << std::endl;
+        module->setTargetTriple(TargetTriple);
+
+        llvm::InitializeAllTargetInfos();
+        llvm::InitializeAllTargets();
+        llvm::InitializeAllTargetMCs();
+        llvm::InitializeAllAsmParsers();
+        llvm::InitializeAllAsmPrinters();
 
     }
     void dump();

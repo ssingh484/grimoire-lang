@@ -20,41 +20,48 @@
 void  GeneratorLLVM::process(std::shared_ptr<SymbolTable> symbolTable,std::shared_ptr<AST> ast) {
 
     
-    this->filename = filename;
+    // this->filename = filename;
 
-    this->module = std::make_unique<llvm::Module>(llvm::StringRef(filename),llvmContext);
-    this->builder = std::make_unique<llvm::IRBuilder<>>(llvmContext);
+    // this->module = std::make_unique<llvm::Module>(llvm::StringRef(filename),llvmContext);
+    // this->builder = std::make_unique<llvm::IRBuilder<>>(llvmContext);
 
-    // auto CPU = "generic";
-    // auto Features = "";
-    // std::string Error;
+    auto CPU = "generic";
+    auto Features = "";
+    std::string Error;
 
     auto TargetTriple = llvm::sys::getDefaultTargetTriple();
 
-    // auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
-    // llvm::TargetOptions opt;
-    // auto RM = llvm:: Optional<llvm::Reloc::Model>();
-    // auto TargetMachine = Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
-    // std::cout << "HERE\n\n\n";
-    // module->setDataLayout(TargetMachine->createDataLayout());
-    module->setTargetTriple(TargetTriple);
+    auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
+    if (! Target)
+    {
+        std::cout << "TARGET NOT FOUND";
+    }
+    
+    llvm::TargetOptions opt;
+    auto RM = llvm:: Optional<llvm::Reloc::Model>();
+    auto TargetMachine = Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
+    std::cout << "HERE\n\n\n";
+    module->setDataLayout(TargetMachine->createDataLayout());
+    // module->setTargetTriple(TargetTriple);
 
-    // auto out_file = "output.o";
-    // std::error_code EC;
-    // llvm::raw_fd_ostream dest(out_file, EC, llvm::sys::fs::OF_None);
+    auto out_file = this->filename;
+    auto idx = out_file.find(".sigil");
+    out_file.replace(idx, 7, ".out");
+    std::error_code EC;
+    llvm::raw_fd_ostream dest(out_file, EC, llvm::sys::fs::OF_None);
 
-    // if (EC) {
-    //     std::cout << "Could not open file: " << EC.message();
-    //     return;
-    // }
+    if (EC) {
+        std::cout << "Could not open file: " << EC.message();
+        return;
+    }
 
-    // llvm::legacy::PassManager pass;
-    // auto FileType = llvm::CGFT_ObjectFile;
+    llvm::legacy::PassManager pass;
+    auto FileType = llvm::CGFT_ObjectFile;
 
-    // if (TargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
-    //     std::cout << "TargetMachine can't emit a file of this type";
-    //     return;
-    // }
+    if (TargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
+        std::cout << "TargetMachine can't emit a file of this type";
+        return;
+    }
     
     std::cout << "----- Code generation : Processing Global scope vars and function declarations -----"  << std::endl;
 
@@ -80,10 +87,11 @@ void  GeneratorLLVM::process(std::shared_ptr<SymbolTable> symbolTable,std::share
         node->get()->accept(this);
     }
 
-    // std::cout << "----- Code generation : Emitting Object file -----";
+    std::cout << "----- Code generation : Emitting Object file -----";
 
-    // pass.run(*(this->module));
-    // dest.flush();
+    pass.run(*(this->module));
+    std::cout << "WROTE OUT FILE TO: " << out_file << std::endl;
+    dest.flush();
 
 }
 

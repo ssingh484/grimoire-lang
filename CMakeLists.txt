@@ -7,6 +7,8 @@ set(ANTLR4_WITH_STATIC_CRT OFF)
 
 set(CMAKE_BUILD_TYPE Release)
 
+set(DLLVM_TARGETS_TO_BUILD "AArch64;AMDGPU;ARM;AVR;BPF;Hexagon;Lanai;Mips;MSP430;PowerPC;RISCV;Sparc;SystemZ;VE;WebAssembly;X86")
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(LLVM REQUIRED CONFIG)
@@ -26,6 +28,16 @@ add_definitions(${LLVM_DEFINITIONS_LIST})
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
 llvm_map_components_to_libnames(llvm_libs support core irreader target)
+
+foreach(t ${LLVM_TARGETS_TO_BUILD})
+  list(APPEND targets "LLVM${t}CodeGen")
+#   list(APPEND targets "LLVM${t}AsmParser")
+endforeach()
+
+foreach(t ${DLLVM_TARGETS_TO_BUILD})
+#   list(APPEND targets "LLVM${t}CodeGen")
+  list(APPEND targets "LLVM${t}AsmParser")
+endforeach()
 
 include_directories(src)
 include_directories(src/antlr-generated)
@@ -51,7 +63,7 @@ add_executable(grimoire src/main.cpp
         src/grimoire/generator.cpp )
         # src/grimoire/grimoirejit.h
 
-target_link_libraries(grimoire  antlr4_static ${llvm_libs})
+target_link_libraries(grimoire  antlr4_static ${llvm_libs} ${targets})
 # add_custom_command(TARGET grimoire
 #                    POST_BUILD
 #                    COMMAND ${CMAKE_COMMAND}

@@ -79,5 +79,6 @@
         "xlocmes": "cpp",
         "xloctime": "cpp",
         "xstddef": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": false
 }
