@@ -34,7 +34,7 @@ void  GeneratorLLVM::process(std::shared_ptr<SymbolTable> symbolTable,std::share
     auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
     if (! Target)
     {
-        std::cout << "TARGET NOT FOUND";
+        throw GrimException("TARGET " + TargetTriple + " NOT FOUND");
     }
     
     llvm::TargetOptions opt;
@@ -51,16 +51,14 @@ void  GeneratorLLVM::process(std::shared_ptr<SymbolTable> symbolTable,std::share
     llvm::raw_fd_ostream dest(out_file, EC, llvm::sys::fs::OF_None);
 
     if (EC) {
-        std::cout << "Could not open file: " << EC.message();
-        return;
+        throw GrimException("Could not open file: " + EC.message() );
     }
 
     llvm::legacy::PassManager pass;
     auto FileType = llvm::CGFT_ObjectFile;
 
     if (TargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
-        std::cout << "TargetMachine can't emit a file of this type";
-        return;
+        throw GrimException("TargetMachine can't emit a file of this type");
     }
     
     std::cout << "----- Code generation : Processing Global scope vars and function declarations -----"  << std::endl;
@@ -136,6 +134,10 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
     llvm::FunctionType *printf_type = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext),printf_params, true);
     llvm::Function *printf_func = llvm::Function::Create(printf_type, llvm::Function::ExternalLinkage, "printf", this->module.get());
 
+    /* External function declaration */
+    llvm::FunctionType *getchar_type = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), false);
+    llvm::Function *getchar_func = llvm::Function::Create(getchar_type, llvm::Function::ExternalLinkage, "getchar", this->module.get());
+
     std::vector<llvm::Type*> writec_params;
     writec_params.push_back(llvm::Type::getInt32Ty(llvmContext));
     llvm::FunctionType *writec_ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext),writec_params,false);
@@ -158,6 +160,10 @@ void  GeneratorLLVM::initializeRunTime(std::shared_ptr<SymbolTable> symbolTable)
     llvm::Value * format_string = llvm::ConstantExpr::getBitCast(module->getNamedGlobal("pstr"), charType->getPointerTo());
     writei_args.push_back(format_string);
     writei_args.push_back(writei->getArg(0));
+
+    // llvm::BasicBlock *BB2 = llvm::BasicBlock::Create(llvmContext, "",getchar_func);
+    // builder->SetInsertPoint(BB2);    
+    // builder->CreateRetVoid(builder->CreateCall(getchar_func));
 
     std::cout << "PRINTF HAS NUM ARGS: " << printf_type->getParamType(0) << std::endl;
     // llvm::Value * trunc_val = builder->CreateTrunc(writec->getArg(0), llvm::Type::getInt8Ty(llvmContext));
@@ -368,7 +374,7 @@ llvm::Value* GeneratorLLVM::visit(Identifier *identifier,void *param) {
     std::shared_ptr<Symbol> symbol = symbolTable->get(identifier->getValue(), identifier->getScope());
     std::cout << "LOOKING FOR : " << identifier->getValue() << " in scope : " << identifier->getScope();
     if(symbol == nullptr) {
-        std::cout << "ERROR: undefined symbol: " << identifier->getValue()  << std::endl;
+        throw GrimException("ERROR: undefined symbol: " + identifier->getValue());
         exit(1);
     }
     // module->getGlobalVariable(symbol->getName())->dump();
@@ -524,7 +530,7 @@ llvm::Value* GeneratorLLVM::visit(AssignmentStatement *assignment,void *param) {
 
     // llvm::GlobalVariable* target = module->getGlobalVariable(symbol->getName());
     if(!var_val) {
-        std::cout << assignment->getTarget() << "  not found!";
+        throw GrimException(assignment->getTarget()->getValue() + "  not found!");
     }
     var_val->dump();
     if(assignment->getExpression()) {
@@ -773,7 +779,6 @@ llvm::Value* GeneratorLLVM::visit(ConditionalClause *cond,void *param) {
 
         std::cout << cond->getWhen().at(i)->getExpression() << std::endl;
         llvm::Value *condition = cond->getWhen().at(i)->getExpression()->accept(this );
-        std::cout << "REACHED HERE" << std::endl;
         condition->dump();
         // llvm::ConstantInt::get(llvmContext, llvm::APInt(8, 0, true))->dump();
         // condition = builder->CreateICmpNE(condition, llvm::ConstantInt::get(llvmContext, llvm::APInt(8, 0, true)), "ifcond");
@@ -901,7 +906,7 @@ llvm::Value* GeneratorLLVM::visit(Statement *statement,void *param) {
 llvm::Value* GeneratorLLVM::visit(ArrayIdentifier *identifier,void *param) {
     std::shared_ptr<Symbol> symbol = symbolTable->get(identifier->getVar()->getValue(), identifier->getScope());
     if(symbol == nullptr) {
-        std::cout << "ERROR: undefined symbol: " << identifier->getValue()  << std::endl;
+        throw GrimException("ERROR: undefined symbol: " + identifier->getValue());
         exit(1);
     }
 

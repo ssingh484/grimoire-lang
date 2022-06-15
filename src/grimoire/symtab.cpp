@@ -88,8 +88,8 @@ void    SymbolTable::add(std::shared_ptr<Symbol> symbol, int at) {
         scope.insert({ symbol->getName(),symbol });
         symbolTable[at] = scope;
     } else {
-        /* TODO: compiler class should provide an interface to add error messages */
-        std::cout << "@line: " << symbol->getLine() << " symbol: " << symbol->getName() << " already defined @line : " << duplicate->second.get()->getLine()  << std::endl;
+        auto name = symbol->getName();
+        throw GrimException("@line: " + std::to_string(symbol->getLine()) + " symbol: " + name + " already defined @line : " + std::to_string(duplicate->second.get()->getLine()));
     }
 }
 /**

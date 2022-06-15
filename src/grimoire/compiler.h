@@ -5,6 +5,7 @@
 #include "antlr-generated/grimoireParser.h"
 #include "antlr-generated/grimoireBaseVisitor.h"
 #include "symtab.h"
+#include "exception.h"
 
 class Compiler {
 
@@ -103,9 +104,7 @@ public:
                     std::shared_ptr<Expression> index = parseExpression(ctx->lvaluetail()->expr(), scope);
                     return ArrayIdentifier::create(var, index, ctx->getStart()->getLine(), scope);
                 } else {
-                    std::cout << "UNIDENTIFIED SYMBOL: " << name;
-                    exit(-1);
-                    return nullptr;
+                    throw GrimException("UNIDENTIFIED SYMBOL: " + name);
                 }
             } else {
                 std::string name = ctx->ID()->getText();                
@@ -115,9 +114,7 @@ public:
                 {
                     return Identifier::create(name, ctx->getStart()->getLine(), scope);
                 } else {
-                    std::cout << "UNIDENTIFIED SYMBOL: " << name;
-                    exit(-1);
-                    return nullptr;
+                    throw GrimException("UNIDENTIFIED SYMBOL: " + name);
                 }
             }   
         } else if (ctx->funcexpr())

@@ -111,8 +111,7 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
         std::string var_name = ctx->ID()->getText();
         std::shared_ptr<Symbol> symbol =  this->compiler->symbolTable->get(var_name, symbolScopeStack.top());
         if(!symbol) {
-            std::cout << " UNDEFINED identifier: " << var_name;
-            exit(-1);
+            throw GrimException(" UNDEFINED identifier: " + var_name);
             return nullptr;
         }
 
@@ -131,8 +130,7 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
                 std::shared_ptr<AssignmentStatement> assignment = AssignmentStatement::create(target, expression, ctx->getStart()->getLine());
                 addNode(assignment);
             } else {
-                std::cout << "UNIDENTIFIED SYMBOL: " << name;
-                exit(-1);
+                throw GrimException("UNIDENTIFIED SYMBOL: " + name);
                 return nullptr;
             }
         } else {
@@ -147,8 +145,7 @@ antlrcpp::Any grimoireCodeVisitor::visitAssignstat(antlrcppgrim::grimoireParser:
                 std::shared_ptr<AssignmentStatement> assignment = AssignmentStatement::create(target, expression, ctx->getStart()->getLine());
                 addNode(assignment);
             } else {
-                std::cout << "UNIDENTIFIED SYMBOL: " << name;
-                exit(-1);
+                throw GrimException("UNIDENTIFIED SYMBOL: " + name);
                 return nullptr;
             }
         } 
@@ -284,8 +281,7 @@ antlrcpp::Any grimoireCodeVisitor::visitForstat(antlrcppgrim::grimoireParser::Fo
             std::shared_ptr<ForStatement> loop = ForStatement::create(start_assign, end, change, ctx->getStart()->getLine());
             scopeStack.push(loop);
         } else {
-            std::cout << "UNIDENTIFIED SYMBOL: " << name;
-            exit(-1);
+            throw GrimException("UNIDENTIFIED SYMBOL: " + name);
             return nullptr;
         }
 

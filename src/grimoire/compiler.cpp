@@ -36,49 +36,57 @@ int Compiler::compile() {
     std::string file_contents;
 
     for (std::string const& file: this->sources) {
-        std::cout << "Compiling file:" << file << "\n";
-        readSource(file,file_contents);
+        try
+        {
+            std::cout << "Compiling file:" << file << "\n";
+            readSource(file,file_contents);
 
-        antlr4::ANTLRInputStream input(file_contents);
+            antlr4::ANTLRInputStream input(file_contents);
 
-        std::cout << "Made Input Stream" <<  "\n";
+            std::cout << "Made Input Stream" <<  "\n";
 
-        antlrcppgrim::grimoireLexer lexer(&input);
+            antlrcppgrim::grimoireLexer lexer(&input);
 
-        std::cout << "Made Lexer" <<  "\n";
+            std::cout << "Made Lexer" <<  "\n";
 
-        antlr4::CommonTokenStream tokens(&lexer);
+            antlr4::CommonTokenStream tokens(&lexer);
 
-        std::cout << "Made Token Stream" <<  "\n";
+            std::cout << "Made Token Stream" <<  "\n";
 
-        antlrcppgrim::grimoireParser parser(&tokens);
+            antlrcppgrim::grimoireParser parser(&tokens);
 
-        std::cout << "Made Parser" <<  "\n";
+            std::cout << "Made Parser" <<  "\n";
 
-        // parser.removeErrorListeners();
+            // parser.removeErrorListeners();
 
-        antlrcppgrim::grimoireParser::GrimoireContext *tree = parser.grimoire();
-        // antlrcppgrim::grimoireParser::TermContext *tree = parser.term();
+            antlrcppgrim::grimoireParser::GrimoireContext *tree = parser.grimoire();
+            // antlrcppgrim::grimoireParser::TermContext *tree = parser.term();
 
-        std::cout << "Parsed into Tree" <<  "\n";
+            std::cout << "Parsed into Tree" <<  "\n";
 
-        std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
-        // First Pass parse declarations
-        grimoireDeclarationVisitor declarationVisitor(file, this);
-        declarationVisitor.visit(tree);
-        symbolTable->dump();
-        // symbolTable->resolve();
+            std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
+            // First Pass parse declarations
+            grimoireDeclarationVisitor declarationVisitor(file, this);
+            declarationVisitor.visit(tree);
+            symbolTable->dump();
+            // symbolTable->resolve();
 
-        // Second  Pass parse statements
-        grimoireCodeVisitor codeVisitor(file, this);
-        codeVisitor.visit(tree);
-        codeVisitor.dump();
+            // Second  Pass parse statements
+            grimoireCodeVisitor codeVisitor(file, this);
+            codeVisitor.visit(tree);
+            codeVisitor.dump();
 
-        // Code Generation
-        GeneratorLLVM *generator =  new GeneratorLLVM(file);
-        generator->process(symbolTable,ast);
-        generator->dump();
+            // Code Generation
+            GeneratorLLVM *generator =  new GeneratorLLVM(file);
+            generator->process(symbolTable,ast);
+            generator->dump();
 
+        }
+        catch(GrimException& e)
+        {
+            std::cerr << "Sigil File: " <<  file << " : error: " << e.getMessage() << std::endl;
+            exit(-1);
+        }
     }
     return 0;
 

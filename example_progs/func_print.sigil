@@ -2,5 +2,6 @@ summon i from int embodies 57;
 spell genesis ( ) {
 	summon x from int embodies 1;
 	x becomes i;
+	x becomes getchar();
 	writei(x);
 }
