@@ -49,6 +49,7 @@ The only datatype implemented is int which can also be used to make an array var
   ```
 where **spell** is the keyword for specifying a function declaration followed by the function name, its parameters (if any) separated by commas inside () and then optionally a return type specified by "from _datatype_"
 - Comments, as seen in the code example above are enclosed in /* and \*/ to open and close the comment for both single line and multi-line comments.
+- writec and writei are two functions with a single integer type parameter that can be used to display a value as either an ASCII character ( by truncating the integer to an 8 bit integer value and using that as the ASCII value to display ) or to display a value as the integer respectively. They serve as wrappers for calls to the putchar and printf functions from the C standard library. The getchar function from the C library can also be used to take input values from the user. Presently, this is the only input and output functionality implemented.
 
 # Installation and Usage
 
