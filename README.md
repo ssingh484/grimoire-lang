@@ -5,6 +5,8 @@ It is a functioning compiler for a simple imperative programming language like C
 elements due to my geeky love for the genre. Below I lay out the syntax for the language as implemented so far and describe how to install it and make it compile a grimoire language program into an object file.
 The object file output of this compiler can be linked into a functioning executable by any linker including the one in the GCC collection.
 
+The LLVM project's website and especially their tutorial on the Kaleidoscope programming language [compiler](https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html) as well as the Strumenta company website's LLVM [tutorial](https://tomassetti.me/a-tutorial-on-how-to-write-a-compiler-using-llvm/) served as my greatest sources of ~copypasta~ inspiration in making this project and learning about LLVM.
+
 # Syntax
 
 - Each grimoire program has a genesis function ( a renamed version of the typical entrypoint function "main" ) that serves as the entrypoint of the program.
